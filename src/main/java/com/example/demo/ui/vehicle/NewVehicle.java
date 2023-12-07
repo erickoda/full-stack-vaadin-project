@@ -35,6 +35,7 @@ public class NewVehicle extends VerticalLayout {
     private IntegerField yearOfFabrication = new IntegerField("Ano de Fabricação");
     private ComboBox<VehicleTier> tier = new ComboBox<VehicleTier>("Tier");
     private ComboBox<VehicleStatus> status = new ComboBox<VehicleStatus>("Status");
+    private TextField reasonToDelete = new TextField("Reason To Delete");
     
     public NewVehicle(VehicleService vehiclesService) {
 
@@ -74,7 +75,15 @@ public class NewVehicle extends VerticalLayout {
         Buttons.setAlignItems(FlexComponent.Alignment.CENTER);
         Buttons.add(BackButton);
         Buttons.add(SaveButton);
-        
+
+        status.addValueChangeListener(event -> {
+            if (status.getValue().toString().equals("DELETADO")) {
+                VehicleForms.add(reasonToDelete);
+            } else {
+                VehicleForms.remove(reasonToDelete);
+            }
+        });
+
         add(
             Title,
             VehicleForms,
@@ -95,7 +104,7 @@ public class NewVehicle extends VerticalLayout {
                     Notification.show("License Plate must have 3 letters in the first 3 characters.");
                     return false;
                 }
-            } 
+            }
             else if (i == 4) {
                 if (Character.isDigit(vehicle.getLicensePlate().charAt(i)) == true) {
                     Notification.show("License Plate must have a letter in the 5th character.");
@@ -113,6 +122,11 @@ public class NewVehicle extends VerticalLayout {
             Notification.show("Year of Fabrication must be greater than 2010.");
             return false;
         }
+
+        // if (vehicle.getStatus()) {
+        //     Notification.show("Veículo não pode ter o estado deletado.");
+        //     return false;
+        // }
 
         return true;
     }

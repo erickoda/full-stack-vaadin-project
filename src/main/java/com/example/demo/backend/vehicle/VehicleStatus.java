@@ -5,5 +5,6 @@ public enum VehicleStatus
     DISPONIVEL,
     LOCADO,
     RESERVADO,
-    INDISPONIVEL;
+    INDISPONIVEL,
+    DELETADO;
 }

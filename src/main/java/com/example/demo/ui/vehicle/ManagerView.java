@@ -10,6 +10,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 
+import org.vaadin.crudui.crud.DeleteOperationListener;
 import org.vaadin.crudui.crud.impl.GridCrud;
 
 import jakarta.annotation.security.RolesAllowed;
@@ -26,12 +27,18 @@ public class ManagerView extends VerticalLayout {
         crud.getGrid().setColumns("licensePlate", "builder", "model", "colour", "yearOfFabrication", "tier", "status");
         crud.getCrudFormFactory().setVisibleProperties("licensePlate", "builder", "model", "colour", "yearOfFabrication", "tier", "status");
         crud.setAddOperationVisible(false);
+        crud.setDeleteOperationVisible(false);
+        // crud.setDeleteOperation(deleteOperation());
         crud.getCrudLayout().addToolbarComponent(new RouterLink("New Vehicle", NewVehicle.class));
+        crud.getCrudLayout().addToolbarComponent(new RouterLink("Delete Vehicle", DeleteVehicle.class));
 
         add(
             new H1("Gerente"),
             crud
         );
     }
+
+    // public static DeleteOperationListener<VehicleEntity> deleteOperation() {
+    // }
     
 }
