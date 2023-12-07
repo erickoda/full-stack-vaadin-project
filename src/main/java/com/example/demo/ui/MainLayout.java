@@ -13,7 +13,8 @@ import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.example.demo.security.SecurityService;
-import com.example.demo.ui.vehicle.ManagerView;
+import com.example.demo.ui.clients.ClientView;
+import com.example.demo.ui.vehicle.MainVehicleView;
 
 public class MainLayout extends AppLayout {
 
@@ -48,12 +49,16 @@ public class MainLayout extends AppLayout {
         RouterLink mainView = new RouterLink("Main", MainView.class);
         mainView.setHighlightCondition(HighlightConditions.sameLocation());
 
-        RouterLink managerView = new RouterLink("Manager", ManagerView.class);
+        RouterLink managerView = new RouterLink("Vehicles", MainVehicleView.class);
+        managerView.setHighlightCondition(HighlightConditions.sameLocation());
+
+        RouterLink clientView = new RouterLink("Client", ClientView.class);
         managerView.setHighlightCondition(HighlightConditions.sameLocation());
 
         addToDrawer(new VerticalLayout(
             mainView,
-            managerView
+            managerView,
+            clientView
         ));
     }
 }

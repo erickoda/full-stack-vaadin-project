@@ -19,10 +19,6 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver, Ap
     private LoginForm login = new LoginForm();
 
     public LoginView() {
-        // if (UI.getCurrent().getElement().getThemeList() != null) {
-        //     ThemeList themeList = UI.getCurrent().getElement().getThemeList();
-        //     themeList.add(Lumo.DARK);
-        // }
 
         addClassName("login-view");
         setSizeFull();
@@ -36,15 +32,6 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver, Ap
             new H1("Locadora"),
             login
         );
-
-        // LoginOverlay loginOverlay = new LoginOverlay();
-        // loginOverlay.setTitle("TaskMob");
-        // loginOverlay.setDescription("Built with ♥ by Vaadin");
-        // add(loginOverlay);
-        // loginOverlay.setOpened(true);
-        // // Prevent the example from stealing focus when browsing the documentation
-        // loginOverlay.getElement().setAttribute("no-autofocus", "");
-
     }
     
     @Override

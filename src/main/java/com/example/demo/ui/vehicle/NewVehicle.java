@@ -7,7 +7,6 @@ import com.example.demo.backend.vehicle.VehicleTier;
 import com.example.demo.ui.MainLayout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.charts.model.Back;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
@@ -19,8 +18,6 @@ import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.theme.lumo.LumoUtility.Margin.Horizontal;
 
 import jakarta.annotation.security.RolesAllowed;
 
@@ -54,7 +51,7 @@ public class NewVehicle extends VerticalLayout {
         Title = new H1("New vehicle");
         VehicleForms = new FormLayout(licensePlate, builder, model, colour, yearOfFabrication, tier, status);
         BackButton = new Button("Back", event -> {
-            UI.getCurrent().navigate(ManagerView.class);
+            UI.getCurrent().navigate(MainVehicleView.class);
         });
         SaveButton = new Button("Save", event -> {
             var vehicle = new VehicleEntity();
@@ -122,11 +119,6 @@ public class NewVehicle extends VerticalLayout {
             Notification.show("Year of Fabrication must be greater than 2010.");
             return false;
         }
-
-        // if (vehicle.getStatus()) {
-        //     Notification.show("Veículo não pode ter o estado deletado.");
-        //     return false;
-        // }
 
         return true;
     }
