@@ -1,7 +1,7 @@
 package com.example.demo.ui.vehicle;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.vaadin.crudui.layout.impl.VerticalCrudLayout;
 
@@ -45,6 +45,8 @@ public class DeleteVehicle extends VerticalLayout{
 
     public DeleteVehicle(VehicleService vehicleService) {
 
+        ArrayList<String> vehiclePlatesStrings = new ArrayList<String>();
+
         var binder = new Binder<>(VehicleEntity.class);
         binder.bindInstanceFields(this);
 
@@ -69,13 +71,15 @@ public class DeleteVehicle extends VerticalLayout{
             chosenVehicle.setReasonToDelete(reasonToDelete.getValue());
 
             vehicleService.update(chosenVehicle);
-            Notification.show("Vehicle added successfully.");
+            Notification.show("Vehicle Deleted successfully.");
             binder.readBean(new VehicleEntity());
         });
 
         vehicleService
             .findAll()
-            .forEach(vehicle -> LicensePlateComboBox.setItems(vehicle.getLicensePlate()));
+            .forEach(vehicle -> vehiclePlatesStrings.add(vehicle.getLicensePlate()));
+
+        LicensePlateComboBox.setItems(vehiclePlatesStrings);
 
         updateScreen(vehicleService);
 

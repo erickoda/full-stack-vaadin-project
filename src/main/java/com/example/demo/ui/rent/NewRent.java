@@ -26,8 +26,9 @@ import com.vaadin.flow.component.notification.Notification;
 
 public class NewRent extends VerticalLayout {
 
+    String licensePlate = new String();
     TextField cpf = new TextField("CPF");
-    ComboBox<List<VehicleEntity>> licensePlate = new ComboBox<List<VehicleEntity>>("License Plate");
+    ComboBox<String> licensePlateComboBox = new ComboBox<String>("License Plate");
     DatePicker takeOutDate = new DatePicker("Take Out Date");
     DatePicker returnDate = new DatePicker("Return Date");
     IntegerField rentValue = new IntegerField("Rent Value");
@@ -41,8 +42,8 @@ public class NewRent extends VerticalLayout {
         FormLayout RentForms = new FormLayout(takeOutDate, returnDate, cpf, rentValue);
         
         takeOutDate.addValueChangeListener(event -> {
-            if(returnDate.getValue().toString().isEmpty()){
-                RentForms.remove(licensePlate);
+            if(returnDate.getValue() == null){
+                RentForms.remove(licensePlateComboBox);
                 return;
             }
             if(takeOutDate.getValue().isAfter(returnDate.getValue())){
@@ -50,14 +51,14 @@ public class NewRent extends VerticalLayout {
                 return;
             }
             
-            RentForms.add(licensePlate);
-            licensePlate.setItems(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue()));
+            RentForms.add(licensePlateComboBox);
+            licensePlateComboBox.setItems(rentService.getUnrentedVehiclesPlates(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue())));
 
         });
 
         returnDate.addValueChangeListener(event -> {
-            if(takeOutDate.getValue().toString().isEmpty()){
-                RentForms.remove(licensePlate);
+            if(takeOutDate.getValue() == null){
+                RentForms.remove(licensePlateComboBox);
                 return;
             }
 
@@ -66,8 +67,8 @@ public class NewRent extends VerticalLayout {
                 return;
             }
             
-            RentForms.add(licensePlate);
-            licensePlate.setItems(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue()));
+            RentForms.add(licensePlateComboBox);
+            licensePlateComboBox.setItems(rentService.getUnrentedVehiclesPlates(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue())));
         });
         
         add(Title, 
