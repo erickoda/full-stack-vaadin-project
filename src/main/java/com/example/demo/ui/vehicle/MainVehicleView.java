@@ -2,9 +2,13 @@ package com.example.demo.ui.vehicle;
 
 import com.example.demo.backend.vehicle.VehicleEntity;
 import com.example.demo.backend.vehicle.VehicleService;
+import com.example.demo.backend.vehicle.VehicleStatus;
+import com.example.demo.backend.vehicle.VehicleTier;
 import com.example.demo.ui.MainLayout;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
@@ -32,7 +36,34 @@ public class MainVehicleView extends VerticalLayout {
 
         add(
             new H1("Vehicle"),
-            crud
+            crud,
+            new Button("Gerar Carros", event -> {
+
+                for(int i = 0; i < 10; i++) {
+                    VehicleEntity vehicle = new VehicleEntity(); 
+                    vehicle.setLicensePlate("AAA" + i + "A" + i + i);
+                    vehicle.setBuilder("Fiat");
+                    vehicle.setModel("Uno");
+                    vehicle.setColour("Black");
+                    vehicle.setYearOfFabrication(2013 + 1);
+
+                    if (i < 3) {
+                        vehicle.setTier(VehicleTier.BASICO);
+                    } else if (i < 6) {
+                        vehicle.setTier(VehicleTier.PADRAO);
+                    } else {
+                        vehicle.setTier(VehicleTier.PREMIUM);
+                    }
+
+                    if (i < 6) {
+                        vehicle.setStatus(VehicleStatus.DISPONIVEL);
+                    } else {
+                        vehicle.setStatus(VehicleStatus.INDISPONIVEL);
+                    }
+
+                    vehicleService.add(vehicle);
+                }
+            })
         );
     }
 }
