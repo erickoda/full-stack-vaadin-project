@@ -33,6 +33,7 @@ public class NewCar extends VerticalLayout {
     public NewCar(CarsService carsService) {
 
         status.setItems(CarsStatus.values());
+        tier.setItems(CarsTier.values());
 
         var binder = new Binder<>(CarsEntity.class);
         binder.bindInstanceFields(this);
