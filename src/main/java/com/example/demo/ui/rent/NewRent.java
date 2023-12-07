@@ -1,5 +1,6 @@
 package com.example.demo.ui.rent;
 
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
@@ -10,6 +11,9 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.Binder;
+
+import java.util.List;
+
 import com.example.demo.backend.rent.RentEntity;
 import com.example.demo.backend.rent.RentService;
 import com.example.demo.backend.vehicle.VehicleEntity;
@@ -23,7 +27,7 @@ import com.vaadin.flow.component.notification.Notification;
 public class NewRent extends VerticalLayout {
 
     TextField cpf = new TextField("CPF");
-    TextField licensePlate = new TextField("License Plate");
+    ComboBox<List<VehicleEntity>> licensePlate = new ComboBox<List<VehicleEntity>>("License Plate");
     DatePicker takeOutDate = new DatePicker("Take Out Date");
     DatePicker returnDate = new DatePicker("Return Date");
     IntegerField rentValue = new IntegerField("Rent Value");
@@ -47,6 +51,7 @@ public class NewRent extends VerticalLayout {
             }
             
             RentForms.add(licensePlate);
+            licensePlate.setItems(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue()));
 
         });
 
@@ -62,6 +67,7 @@ public class NewRent extends VerticalLayout {
             }
             
             RentForms.add(licensePlate);
+            licensePlate.setItems(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue()));
         });
         
         add(Title, 

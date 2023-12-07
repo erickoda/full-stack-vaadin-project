@@ -136,7 +136,7 @@ public class RentService implements CrudListener<RentEntity>
             (rent.getStatus() != null);
     }
 
-    private List<VehicleEntity> findUnrentedVehicles(LocalDate takeOutDate, LocalDate returnDate)
+    public List<VehicleEntity> findUnrentedVehicles(LocalDate takeOutDate, LocalDate returnDate)
     {
         var vehicles = vehicleRepository.findAll();
         var rents = rentRepository.findAll();
