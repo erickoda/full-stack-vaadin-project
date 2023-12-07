@@ -10,6 +10,7 @@ import org.vaadin.crudui.crud.CrudListener;
 
 import com.example.demo.backend.vehicle.VehicleEntity;
 import com.example.demo.backend.vehicle.VehicleRepository;
+import com.example.demo.backend.vehicle.VehicleStatus;
 
 import lombok.RequiredArgsConstructor;
 
@@ -165,12 +166,28 @@ public class RentService implements CrudListener<RentEntity>
 
         for (int i = 0; i < vehicles.size(); i++)
         {
-            if (unavailableVehicles.contains(vehicles.get(i).getLicensePlate()))
+            if (unavailableVehicles.contains(vehicles.get(i).getLicensePlate()) 
+                || vehicles.get(i).getStatus() == VehicleStatus.DELETADO
+                || vehicles.get(i).getStatus() == VehicleStatus.INDISPONIVEL
+                || vehicles.get(i).getStatus() == VehicleStatus.LOCADO
+                || vehicles.get(i).getStatus() == VehicleStatus.RESERVADO)
             {
                 vehicles.remove(i);
             }
         }
 
         return vehicles;
+    }
+
+    public List<String> getUnrentedVehiclesPlates(List<VehicleEntity> availableVehicles)
+    {
+        List<String> vehiclesPlates = new ArrayList<String>();
+        
+        for (int i = 0; i < availableVehicles.size(); i++)
+        {
+            vehiclesPlates.add(availableVehicles.get(i).getLicensePlate());
+        }
+
+        return vehiclesPlates;
     }
 }
