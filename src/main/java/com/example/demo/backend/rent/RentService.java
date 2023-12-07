@@ -1,11 +1,15 @@
 package com.example.demo.backend.rent;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.vaadin.crudui.crud.CrudListener;
 
-import com.example.demo.backend.operational.OperationalEntity;
+import com.example.demo.backend.vehicle.VehicleEntity;
+import com.example.demo.backend.vehicle.VehicleRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class RentService implements CrudListener<RentEntity>
 {
     private final RentRepository rentRepository;
+    private final VehicleRepository vehicleRepository;
     
     /**
      * Returns a Collection of RentEntity objects stored in the database.
@@ -129,5 +134,43 @@ public class RentService implements CrudListener<RentEntity>
         return validateCPF(rent.getCpf()) && 
             validateLicensePlate(rent.getLicensePlate()) &&
             (rent.getStatus() != null);
+    }
+
+    public List<VehicleEntity> findUnrentedVehicles(LocalDate takeOutDate, LocalDate returnDate)
+    {
+        var vehicles = vehicleRepository.findAll();
+        var rents = rentRepository.findAll();
+
+        List<String> unavailableVehicles = new ArrayList<String>();
+
+        for (int i = 0; i < rents.size(); i++)
+        {
+            if (
+                (takeOutDate.isBefore(rents.get(i).getTakeOutDate()) && 
+                 returnDate.isAfter(rents.get(i).getTakeOutDate()))
+                || 
+                (takeOutDate.isAfter(rents.get(i).getTakeOutDate()) &&
+                 returnDate.isBefore(rents.get(i).getReturnDate()))
+                ||
+                (takeOutDate.isBefore(rents.get(i).getReturnDate()) &&
+                 returnDate.isAfter(rents.get(i).getReturnDate()))
+                ||
+                (takeOutDate.isBefore(rents.get(i).getTakeOutDate()) &&
+                 returnDate.isAfter(rents.get(i).getReturnDate()))
+                )
+            {
+                unavailableVehicles.add(rents.get(i).getLicensePlate());
+            }
+        }
+
+        for (int i = 0; i < vehicles.size(); i++)
+        {
+            if (unavailableVehicles.contains(vehicles.get(i).getLicensePlate()))
+            {
+                vehicles.remove(i);
+            }
+        }
+
+        return vehicles;
     }
 }
