@@ -34,9 +34,38 @@ public class NewRent extends VerticalLayout {
         var binder = new Binder<>(RentEntity.class);
         binder.bindInstanceFields(this);
         
-        FormLayout RentForms = new FormLayout(takeOutDate, returnDate, cpf, rentValue, licensePlate);
+        FormLayout RentForms = new FormLayout(takeOutDate, returnDate, cpf, rentValue);
         
-        add(Title, RentForms);
+        takeOutDate.addValueChangeListener(event -> {
+            if(returnDate.getValue().toString().isEmpty()){
+                RentForms.remove(licensePlate);
+                return;
+            }
+            if(takeOutDate.getValue().isAfter(returnDate.getValue())){
+                Notification.show("Return date needs to be after take out date");
+                return;
+            }
+            
+            RentForms.add(licensePlate);
+
+        });
+
+        returnDate.addValueChangeListener(event -> {
+            if(takeOutDate.getValue().toString().isEmpty()){
+                RentForms.remove(licensePlate);
+                return;
+            }
+
+            if(takeOutDate.getValue().isAfter(returnDate.getValue())){
+                Notification.show("Return date needs to be after take out date");
+                return;
+            }
+            
+            RentForms.add(licensePlate);
+        });
+        
+        add(Title, 
+            RentForms);
     }
 
     public static boolean isVehiclesFieldsValid(VehicleEntity vehicle) {
