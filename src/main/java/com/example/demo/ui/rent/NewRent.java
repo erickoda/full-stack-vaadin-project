@@ -71,7 +71,8 @@ public class NewRent extends VerticalLayout {
         });
         
         add(Title, 
-            RentForms);
+            RentForms,
+            SaveButton);
     }
 
     public static boolean isVehiclesFieldsValid(VehicleEntity vehicle) {
