@@ -29,7 +29,8 @@ public class NewClient extends VerticalLayout {
     TextField name = new TextField("Name");
     DatePicker birthDate = new DatePicker("Birth Date");
     EmailField email = new EmailField("Email"); 
-    TextField mobileNumber = new TextField("Mobile Number");   
+    TextField mobileNumber = new TextField("Mobile Number");
+    boolean clientExists;
 
     public NewClient(ClientService clientService) {
         H1 Title = new H1("New Client");
@@ -46,6 +47,9 @@ public class NewClient extends VerticalLayout {
             client.setName(client.getName().replaceAll(" ", ""));
             client.setEmail(client.getEmail().replaceAll(" ", ""));
             client.setMobileNumber(client.getMobileNumber().replaceAll(" ", ""));
+            clientExists = false;
+
+            if(clientIsValid(clientService, client) == false) return;
 
             if (client.getCpf().isEmpty() || client.getName().isEmpty() || client.getEmail().isEmpty() || client.getMobileNumber().isEmpty()) {
                 Notification.show("Please fill all the fields");
@@ -62,5 +66,23 @@ public class NewClient extends VerticalLayout {
             SaveButton
         );
         
+    }
+
+    public void verifyClient(ClientService clientService, ClientEntity client) {
+        clientService.findAll().forEach(clientEntity -> {
+            if (client.getCpf().equals(clientEntity.getCpf())) {
+                clientExists = true;
+            }
+        });
+    }
+
+    public boolean clientIsValid(ClientService clientService, ClientEntity client) {
+        verifyClient(clientService, client);
+
+        if (clientExists == true) {
+            return false;
+        }
+
+        return true;
     }
 }
