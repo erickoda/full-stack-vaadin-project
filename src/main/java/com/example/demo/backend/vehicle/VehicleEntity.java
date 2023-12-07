@@ -1,4 +1,4 @@
-package com.example.demo.backend.cars;
+package com.example.demo.backend.vehicle;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "cars")
-public class CarsEntity {
+public class VehicleEntity {
     
     @EqualsAndHashCode.Include
     @NotBlank
@@ -34,10 +34,10 @@ public class CarsEntity {
     @NotNull
     private Integer yearOfFabrication;
     @NotBlank
-    private CarsTier tier;
+    private VehicleTier tier;
     @NotBlank
     @Enumerated(EnumType.STRING)
-    private CarsStatus status;
+    private VehicleStatus status;
 
     private String reasonToDelete;
 }

@@ -1,4 +1,4 @@
-package com.example.demo.backend.cars;
+package com.example.demo.backend.vehicle;
 
 import java.util.Collection;
 
@@ -9,27 +9,27 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class CarsService implements CrudListener<CarsEntity> {
+public class VehicleService implements CrudListener<VehicleEntity> {
 
-    private final CarsRepository carsRepository;
+    private final VehicleRepository carsRepository;
     
     @Override
-    public Collection<CarsEntity> findAll() {
+    public Collection<VehicleEntity> findAll() {
         return carsRepository.findAll();
     }
 
     @Override
-    public CarsEntity add(CarsEntity car) {
+    public VehicleEntity add(VehicleEntity car) {
         return carsRepository.save(car);
     }
 
     @Override
-    public CarsEntity update(CarsEntity car) {
+    public VehicleEntity update(VehicleEntity car) {
         return carsRepository.save(car);
     }
 
     @Override
-    public void delete(CarsEntity car) {
+    public void delete(VehicleEntity car) {
         carsRepository.delete(car);
     }
 }

@@ -1,8 +1,8 @@
-package com.example.demo.backend.cars;
+package com.example.demo.backend.vehicle;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CarsRepository extends JpaRepository<CarsEntity, String> {
+public interface VehicleRepository extends JpaRepository<VehicleEntity, String> {
 }

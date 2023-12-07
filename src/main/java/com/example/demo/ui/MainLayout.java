@@ -13,7 +13,7 @@ import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.example.demo.security.SecurityService;
-import com.example.demo.ui.cars.ManagerView;
+import com.example.demo.ui.vehicle.ManagerView;
 
 public class MainLayout extends AppLayout {
 

@@ -1,7 +1,7 @@
-package com.example.demo.ui.cars;
+package com.example.demo.ui.vehicle;
 
-import com.example.demo.backend.cars.CarsEntity;
-import com.example.demo.backend.cars.CarsService;
+import com.example.demo.backend.vehicle.VehicleEntity;
+import com.example.demo.backend.vehicle.VehicleService;
 import com.example.demo.ui.MainLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Paragraph;
@@ -20,13 +20,13 @@ import jakarta.annotation.security.RolesAllowed;
 @RolesAllowed("GERENTE")
 public class ManagerView extends VerticalLayout {
     
-    public ManagerView(CarsService carsService) {
+    public ManagerView(VehicleService vehicleService) {
 
-        var crud = new GridCrud<>(CarsEntity.class, carsService);
+        var crud = new GridCrud<>(VehicleEntity.class, vehicleService);
         crud.getGrid().setColumns("licensePlate", "builder", "model", "colour", "yearOfFabrication", "tier", "status");
         crud.getCrudFormFactory().setVisibleProperties("licensePlate", "builder", "model", "colour", "yearOfFabrication", "tier", "status");
         crud.setAddOperationVisible(false);
-        crud.getCrudLayout().addToolbarComponent(new RouterLink("New Car", NewCar.class));
+        crud.getCrudLayout().addToolbarComponent(new RouterLink("New Vehicle", NewVehicle.class));
 
         add(
             new H1("Gerente"),
