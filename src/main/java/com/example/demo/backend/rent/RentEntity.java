@@ -1,6 +1,6 @@
 package com.example.demo.backend.rent;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -35,10 +35,10 @@ public class RentEntity
     private String licensePlate;
 
     @NotNull
-    private Date takeOutDate;
+    private LocalDate takeOutDate;
 
     @NotNull
-    private Date returnDate;
+    private LocalDate returnDate;
 
     @NotNull
     private int rentValue;
