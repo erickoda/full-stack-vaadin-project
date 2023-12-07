@@ -78,7 +78,6 @@ public class NewVehicle extends VerticalLayout {
         add(
             Title,
             VehicleForms,
-            BackButton,
             Buttons
         );
     }

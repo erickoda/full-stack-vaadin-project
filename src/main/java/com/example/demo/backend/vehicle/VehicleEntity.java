@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "cars")
+@Table(name = "vehicles")
 public class VehicleEntity {
     
     @EqualsAndHashCode.Include
@@ -33,9 +33,10 @@ public class VehicleEntity {
     private String colour;
     @NotNull
     private Integer yearOfFabrication;
-    @NotBlank
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private VehicleTier tier;
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     private VehicleStatus status;
 

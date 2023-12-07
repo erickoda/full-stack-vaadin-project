@@ -11,25 +11,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class VehicleService implements CrudListener<VehicleEntity> {
 
-    private final VehicleRepository carsRepository;
+    private final VehicleRepository vehicleRepository;
     
     @Override
     public Collection<VehicleEntity> findAll() {
-        return carsRepository.findAll();
+        return vehicleRepository.findAll();
     }
 
     @Override
-    public VehicleEntity add(VehicleEntity car) {
-        return carsRepository.save(car);
+    public VehicleEntity add(VehicleEntity vehicle) {
+        return vehicleRepository.save(vehicle);
     }
 
     @Override
-    public VehicleEntity update(VehicleEntity car) {
-        return carsRepository.save(car);
+    public VehicleEntity update(VehicleEntity vehicle) {
+        return vehicleRepository.save(vehicle);
     }
 
     @Override
-    public void delete(VehicleEntity car) {
-        carsRepository.delete(car);
+    public void delete(VehicleEntity vehicle) {
+        vehicleRepository.delete(vehicle);
     }
 }
