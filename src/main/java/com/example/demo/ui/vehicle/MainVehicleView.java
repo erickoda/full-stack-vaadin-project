@@ -26,6 +26,7 @@ public class MainVehicleView extends VerticalLayout {
         crud.getCrudFormFactory().setVisibleProperties("licensePlate", "builder", "model", "colour", "yearOfFabrication", "tier", "status");
         crud.setAddOperationVisible(false);
         crud.setDeleteOperationVisible(false);
+        crud.setUpdateOperationVisible(false);
         crud.getCrudLayout().addToolbarComponent(new RouterLink("New Vehicle", NewVehicle.class));
         crud.getCrudLayout().addToolbarComponent(new RouterLink("Delete Vehicle", DeleteVehicle.class));
 
