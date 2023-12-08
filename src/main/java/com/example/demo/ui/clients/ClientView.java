@@ -1,10 +1,13 @@
 package com.example.demo.ui.clients;
 
+import java.time.LocalDate;
+
 import org.vaadin.crudui.crud.impl.GridCrud;
 
 import com.example.demo.backend.client.ClientEntity;
 import com.example.demo.backend.client.ClientService;
 import com.example.demo.ui.MainLayout;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -32,8 +35,22 @@ public class ClientView extends VerticalLayout {
 
         add(
             Title,
-            crud
+            crud,
+            new Button("Generate Clients", (event) -> {
+                generateClients(clientService);
+            })
         );
-        
+    }
+
+    public void generateClients(ClientService clientService) {
+        for(int i = 0; i < 10; i++) {
+            ClientEntity client = new ClientEntity();
+            client.setCpf("0000000000" + i);
+            client.setName("Client " + i);
+            client.setBirthDate(LocalDate.of(1990 + i, 01 + i, 02 + i));
+            client.setEmail("client" + i + "@gmail.com");
+            client.setMobileNumber("0000000000" + i);
+            clientService.add(client);
+        }
     }
 }
