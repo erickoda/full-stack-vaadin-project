@@ -195,7 +195,7 @@ public class RentService implements CrudListener<RentEntity>
         return vehiclesPlates;
     }
 
-    public int calculateRentPrice(RentEntity rent)
+    public float calculateRentPrice(RentEntity rent)
     {
         var vehicles = vehicleRepository.findAll();
         var operational = operationalRepository.findAll();
@@ -221,7 +221,7 @@ public class RentService implements CrudListener<RentEntity>
             }
         }
         
-        long totalRent = ChronoUnit.DAYS.between(rent.getTakeOutDate(), rent.getReturnDate()) * 
+        float totalRent = ChronoUnit.DAYS.between(rent.getTakeOutDate(), rent.getReturnDate()) * 
              thisOperational.getDailyRent();
 
         if (rent.isCleanExterior())
@@ -238,6 +238,6 @@ public class RentService implements CrudListener<RentEntity>
                 thisOperational.getInsuranceDailyValue();
         }
 
-        return (int) totalRent;
+        return totalRent;
     }
 }
