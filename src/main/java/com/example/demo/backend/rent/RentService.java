@@ -1,6 +1,7 @@
 package com.example.demo.backend.rent;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.vaadin.crudui.crud.CrudListener;
 
+import com.example.demo.backend.operational.OperationalEntity;
+import com.example.demo.backend.operational.OperationalRepository;
 import com.example.demo.backend.vehicle.VehicleEntity;
 import com.example.demo.backend.vehicle.VehicleRepository;
 import com.example.demo.backend.vehicle.VehicleStatus;
@@ -20,6 +23,7 @@ public class RentService implements CrudListener<RentEntity>
 {
     private final RentRepository rentRepository;
     private final VehicleRepository vehicleRepository;
+    private final OperationalRepository operationalRepository;
     
     /**
      * Returns a Collection of RentEntity objects stored in the database.
@@ -189,5 +193,51 @@ public class RentService implements CrudListener<RentEntity>
         }
 
         return vehiclesPlates;
+    }
+
+    public int calculateRentPrice(RentEntity rent)
+    {
+        var vehicles = vehicleRepository.findAll();
+        var operational = operationalRepository.findAll();
+
+        VehicleEntity thisVehicle = null;
+        OperationalEntity thisOperational = null;
+
+        for (int i = 0; i < vehicles.size(); i++)
+        {
+            if (vehicles.get(i).getLicensePlate() == rent.getLicensePlate())
+            {
+                thisVehicle = vehicles.get(i);
+                break;
+            }
+        }
+
+        for (int i = 0; i < operational.size(); i++)
+        {
+            if (operational.get(i).getTier() == thisVehicle.getTier())
+            {
+                thisOperational = operational.get(i);
+                break;
+            }
+        }
+        
+        long totalRent = ChronoUnit.DAYS.between(rent.getTakeOutDate(), rent.getReturnDate()) * 
+             thisOperational.getDailyRent();
+
+        if (rent.isCleanExterior())
+        {
+            totalRent += thisOperational.getExteriorCleaningValue();
+        }
+        if (rent.isCleanInterior())
+        {
+            totalRent += thisOperational.getInteriorCleaningValue();
+        }
+        if (rent.isHasInsurance())
+        {
+            totalRent += ChronoUnit.DAYS.between(rent.getTakeOutDate(), rent.getReturnDate()) *
+                thisOperational.getInsuranceDailyValue();
+        }
+
+        return (int) totalRent;
     }
 }

@@ -50,4 +50,13 @@ public class RentEntity
     @NotNull
     @Enumerated(EnumType.STRING)
     private RentStatus status;
+
+    @NotNull
+    private boolean cleanExterior;
+    
+    @NotNull
+    private boolean cleanInterior;
+
+    @NotNull
+    private boolean hasInsurance;
 }
