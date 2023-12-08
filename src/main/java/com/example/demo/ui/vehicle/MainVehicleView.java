@@ -38,32 +38,36 @@ public class MainVehicleView extends VerticalLayout {
             new H1("Vehicle"),
             crud,
             new Button("Gerar Carros", event -> {
-
-                for(int i = 0; i < 10; i++) {
-                    VehicleEntity vehicle = new VehicleEntity(); 
-                    vehicle.setLicensePlate("AAA" + i + "A" + i + i);
-                    vehicle.setBuilder("Fiat");
-                    vehicle.setModel("Uno");
-                    vehicle.setColour("Black");
-                    vehicle.setYearOfFabrication(2013 + 1);
-
-                    if (i < 3) {
-                        vehicle.setTier(VehicleTier.BASICO);
-                    } else if (i < 6) {
-                        vehicle.setTier(VehicleTier.PADRAO);
-                    } else {
-                        vehicle.setTier(VehicleTier.PREMIUM);
-                    }
-
-                    if (i < 6) {
-                        vehicle.setStatus(VehicleStatus.DISPONIVEL);
-                    } else {
-                        vehicle.setStatus(VehicleStatus.INDISPONIVEL);
-                    }
-
-                    vehicleService.add(vehicle);
-                }
+                generateVehicles(vehicleService);
             })
         );
     }
+
+    public void generateVehicles(VehicleService vehicleService) {
+        for(int i = 0; i < 10; i++) {
+            VehicleEntity vehicle = new VehicleEntity(); 
+            vehicle.setLicensePlate("AAA" + i + "A" + i + i);
+            vehicle.setBuilder("Fiat");
+            vehicle.setModel("Uno");
+            vehicle.setColour("Black");
+            vehicle.setYearOfFabrication(2013 + 1);
+
+            if (i < 3) {
+                vehicle.setTier(VehicleTier.BASICO);
+            } else if (i < 6) {
+                vehicle.setTier(VehicleTier.PADRAO);
+            } else {
+                vehicle.setTier(VehicleTier.PREMIUM);
+            }
+
+            if (i < 6) {
+                vehicle.setStatus(VehicleStatus.DISPONIVEL);
+            } else {
+                vehicle.setStatus(VehicleStatus.INDISPONIVEL);
+            }
+
+            vehicleService.add(vehicle);
+        }
+    }
+    
 }
