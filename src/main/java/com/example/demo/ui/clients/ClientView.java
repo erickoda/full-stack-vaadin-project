@@ -45,11 +45,44 @@ public class ClientView extends VerticalLayout {
     public void generateClients(ClientService clientService) {
         for(int i = 0; i < 10; i++) {
             ClientEntity client = new ClientEntity();
-            client.setCpf("0000000000" + i);
+            switch (i) {
+                case 0:
+                    client.setCpf("69390003059");
+                    break;
+                case 1:
+                    client.setCpf("36153123090");
+                    break;
+                case 2:
+                    client.setCpf("19383908068");
+                    break;
+                case 3:
+                    client.setCpf("37489816009");
+                    break;
+                case 4:
+                    client.setCpf("72254556053");
+                    break;
+                case 5:
+                    client.setCpf("89354657044");
+                    break;
+                case 6:
+                    client.setCpf("27881836075");
+                    break;
+                case 7:
+                    client.setCpf("55613216096");
+                    break;
+                case 8:
+                    client.setCpf("50394221052");
+                    break;
+                case 9:
+                    client.setCpf("57395729080");
+                    break;
+                default:
+                    break;
+            }
             client.setName("Client " + i);
             client.setBirthDate(LocalDate.of(1990 + i, 01 + i, 02 + i));
             client.setEmail("client" + i + "@gmail.com");
-            client.setMobileNumber("0000000000" + i);
+            client.setMobileNumber("551199301350" + i);
             clientService.add(client);
         }
     }
