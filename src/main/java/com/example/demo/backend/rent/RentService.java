@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.vaadin.crudui.crud.CrudListener;
 
@@ -195,7 +196,7 @@ public class RentService implements CrudListener<RentEntity>
         return vehiclesPlates;
     }
 
-    public float calculateRentPrice(RentEntity rent)
+    public float calculateRentPrice(Boolean cleanExterior, Boolean cleanInterior, Boolean insurance, String licensePlate, LocalDate takeOuDate, LocalDate returnDate)
     {
         var vehicles = vehicleRepository.findAll();
         var operational = operationalRepository.findAll();
@@ -205,7 +206,7 @@ public class RentService implements CrudListener<RentEntity>
 
         for (int i = 0; i < vehicles.size(); i++)
         {
-            if (vehicles.get(i).getLicensePlate() == rent.getLicensePlate())
+            if (vehicles.get(i).getLicensePlate() == licensePlate)
             {
                 thisVehicle = vehicles.get(i);
                 break;
@@ -221,20 +222,20 @@ public class RentService implements CrudListener<RentEntity>
             }
         }
         
-        float totalRent = ChronoUnit.DAYS.between(rent.getTakeOutDate(), rent.getReturnDate()) * 
+        float totalRent = ChronoUnit.DAYS.between(takeOuDate, returnDate) * 
              thisOperational.getDailyRent();
 
-        if (rent.isCleanExterior())
+        if (cleanExterior)
         {
             totalRent += thisOperational.getExteriorCleaningValue();
         }
-        if (rent.isCleanInterior())
+        if (cleanInterior)
         {
             totalRent += thisOperational.getInteriorCleaningValue();
         }
-        if (rent.isHasInsurance())
+        if (insurance)
         {
-            totalRent += ChronoUnit.DAYS.between(rent.getTakeOutDate(), rent.getReturnDate()) *
+            totalRent += ChronoUnit.DAYS.between(takeOuDate, returnDate) *
                 thisOperational.getInsuranceDailyValue();
         }
 
