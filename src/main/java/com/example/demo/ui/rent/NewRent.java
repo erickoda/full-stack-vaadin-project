@@ -1,5 +1,6 @@
 package com.example.demo.ui.rent;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -40,6 +41,15 @@ public class NewRent extends VerticalLayout {
         binder.bindInstanceFields(this);
         
         FormLayout RentForms = new FormLayout(takeOutDate, returnDate, cpf, rentValue);
+        Button SaveButton = new Button("Save", event -> {
+            var rent = new RentEntity();
+            binder.writeBeanIfValid(rent);
+
+            rent.setCpf(rent.getCpf().replaceAll(" ", ""));
+            rent.setCpf(rent.getCpf().replaceAll(".", ""));
+            rent.setCpf(rent.getCpf().replaceAll("-", ""));
+
+        });
         
         takeOutDate.addValueChangeListener(event -> {
             if(returnDate.getValue() == null){
@@ -70,6 +80,8 @@ public class NewRent extends VerticalLayout {
             RentForms.add(licensePlateComboBox);
             licensePlateComboBox.setItems(rentService.getUnrentedVehiclesPlates(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue())));
         });
+
+        
         
         add(Title, 
             RentForms,
