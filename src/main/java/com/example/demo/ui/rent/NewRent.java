@@ -12,11 +12,11 @@ import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
-import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.Binder;
 
-import java.util.List;
+import org.springframework.boot.autoconfigure.integration.IntegrationProperties.RSocket.Client;
 
+import com.example.demo.backend.client.ClientService;
 import com.example.demo.backend.rent.RentEntity;
 import com.example.demo.backend.rent.RentService;
 import com.example.demo.backend.vehicle.VehicleEntity;
@@ -32,7 +32,8 @@ import com.vaadin.flow.component.notification.Notification;
 public class NewRent extends VerticalLayout {
 
     String licensePlate = new String();
-    TextField cpf = new TextField("CPF");
+    // TextField cpf = new TextField("CPF");
+    ComboBox<String> cpf = new ComboBox<String>("CPF");
     ComboBox<String> licensePlateComboBox = new ComboBox<String>("License Plate");
     DatePicker takeOutDate = new DatePicker("Take Out Date");
     DatePicker returnDate = new DatePicker("Return Date");
@@ -47,13 +48,15 @@ public class NewRent extends VerticalLayout {
     IntegerField yearOfFabrication = new IntegerField();
 
 
-    public NewRent(RentService rentService, VehicleService vehicleService){
+    public NewRent(RentService rentService, VehicleService vehicleService, ClientService clientService){
         H1 Title = new H1("New Rent");
 
         var binder = new Binder<>(RentEntity.class);
         binder.bindInstanceFields(this);
         
         rentValue.isReadOnly();
+
+        cpf.setItems(clientService.getAllCpfs());
 
         FormLayout RentForms = new FormLayout(takeOutDate, returnDate, cpf, rentValue/*, cleanInterior, cleanExterior, hasInsurance*/);
         Button SaveButton = new Button("Save", event -> {
