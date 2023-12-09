@@ -1,5 +1,6 @@
 package com.example.demo.backend.client;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.stereotype.Service;
@@ -30,5 +31,16 @@ public class ClientService implements CrudListener<ClientEntity> {
     @Override
     public void delete(ClientEntity client) {
         clientRepository.delete(client);
+    }
+
+    public ArrayList<String> getAllCpfs() {
+        ArrayList<String> cpfs = new ArrayList<>();
+        Collection<ClientEntity> clients = clientRepository.findAll();
+
+        for (var client: clients) {
+            cpfs.add(client.getCpf());
+        }
+
+        return cpfs;
     }
 }
