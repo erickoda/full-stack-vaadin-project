@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.vaadin.crudui.crud.CrudListener;
 
+import com.example.demo.backend.client.ClientEntity;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -17,7 +19,17 @@ public class VehicleService implements CrudListener<VehicleEntity> {
     
     @Override
     public Collection<VehicleEntity> findAll() {
-        return vehicleRepository.findAll();
+
+        var allVehicles = vehicleRepository.findAll();
+        var filteredVehicles = new ArrayList<VehicleEntity>();
+
+        for (var vehicle: allVehicles) {
+            if (vehicle.getStatus() != VehicleStatus.DELETADO) {
+                filteredVehicles.add(vehicle);
+            }
+        }
+        
+        return filteredVehicles;
     }
 
     @Override

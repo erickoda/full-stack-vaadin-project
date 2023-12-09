@@ -66,11 +66,15 @@ public class DeleteVehicle extends VerticalLayout{
             );
             confirmDelete.open();
             confirmDelete.addConfirmListener(e -> confirmDelete(vehicleService, binder));
+            confirmDelete.addCancelListener(e -> confirmDelete.close());
         });
 
         vehicleService
             .findAll()
-            .forEach(vehicle -> vehiclePlatesStrings.add(vehicle.getLicensePlate()));
+            .forEach(vehicle -> {
+                if (vehicle.getStatus() != VehicleStatus.DELETADO)
+                    vehiclePlatesStrings.add(vehicle.getLicensePlate());
+            });
 
         LicensePlateComboBox.setItems(vehiclePlatesStrings);
 
