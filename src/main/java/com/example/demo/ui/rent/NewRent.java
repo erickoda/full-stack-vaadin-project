@@ -18,6 +18,9 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Margin.Horizontal;
 import jakarta.annotation.security.PermitAll;
 import com.vaadin.flow.data.binder.Binder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.integration.IntegrationProperties.RSocket.Client;
 
 import com.example.demo.backend.client.ClientService;
@@ -106,6 +109,7 @@ public class NewRent extends VerticalLayout {
         vehicleTiersComboBox.addValueChangeListener(event -> {
             vehicleGrid.setItems(vehicleService.getVehicle(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue()), vehicleTiersComboBox.getValue()));
             RentForms.add(vehicleGrid);
+            licensePlateComboBox.setItems(rentService.getUnrentedVehiclesPlates(vehicleService.getVehicle(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue()), vehicleTiersComboBox.getValue())));
         });
         
         takeOutDate.addValueChangeListener(event -> {
@@ -124,7 +128,6 @@ public class NewRent extends VerticalLayout {
             vehicleTiersComboBox.setItems(VehicleTier.values());
 
             RentForms.add(licensePlateComboBox);
-            licensePlateComboBox.setItems(rentService.getUnrentedVehiclesPlates(vehicleService.getVehicle(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue()), vehicleTiersComboBox.getValue())));
         });
 
         returnDate.addValueChangeListener(event -> {
@@ -142,10 +145,8 @@ public class NewRent extends VerticalLayout {
             
             RentForms.add(vehicleTiersComboBox);
             vehicleTiersComboBox.setItems(VehicleTier.values());
-            
+
             RentForms.add(licensePlateComboBox);
-            licensePlateComboBox.setItems(rentService.getUnrentedVehiclesPlates(vehicleService.getVehicle(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue()), vehicleTiersComboBox.getValue())));
-            
         });
         
         licensePlateComboBox.addValueChangeListener(event -> {
