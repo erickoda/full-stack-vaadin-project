@@ -39,7 +39,6 @@ import com.vaadin.flow.component.notification.Notification;
 public class NewRent extends VerticalLayout {
 
     String licensePlate = new String();
-    // TextField cpf = new TextField("CPF");
     ComboBox<String> cpf = new ComboBox<String>("CPF");
     ComboBox<String> licensePlateComboBox = new ComboBox<String>("License Plate");
     DatePicker takeOutDate = new DatePicker("Take Out Date");
@@ -72,18 +71,18 @@ public class NewRent extends VerticalLayout {
 
             rent.setLicensePlate(licensePlate);
 
-            rent.setTakeOutDate(takeOutDate.getValue());
-            rent.setReturnDate(returnDate.getValue());
+            // rent.setTakeOutDate(takeOutDate.getValue());
+            // rent.setReturnDate(returnDate.getValue());
 
             rent.setCpf(rent.getCpf().replaceAll(" ", ""));
             rent.setCpf(rent.getCpf().replaceAll(".", ""));
             rent.setCpf(rent.getCpf().replaceAll("-", ""));
 
-            rent.setHasInsurance(hasInsurance.getValue());
-            rent.setCleanExterior(cleanExterior.getValue());
-            rent.setCleanInterior(cleanInterior.getValue());
+            // rent.setHasInsurance(hasInsurance.getValue());
+            // rent.setCleanExterior(cleanExterior.getValue());
+            // rent.setCleanInterior(cleanInterior.getValue());
 
-            rent.setRentValue(rentValue.getValue());
+            // rent.setRentValue(rentValue.getValue());
 
             // Do validation of rent just like isVehiclesFieldsValid
 
@@ -148,6 +147,11 @@ public class NewRent extends VerticalLayout {
 
             RentForms.add(licensePlateComboBox);
         });
+
+        VerticalLayout checkBoxLayout = new VerticalLayout();
+        checkBoxLayout.add(cleanExterior);
+        checkBoxLayout.add(cleanInterior);
+        checkBoxLayout.add(hasInsurance);
         
         licensePlateComboBox.addValueChangeListener(event -> {
             cleanInterior.setLabel("Add Interior Cleaning");
@@ -155,9 +159,7 @@ public class NewRent extends VerticalLayout {
             hasInsurance.setLabel("Add Insurance");
             
             RentForms.add(
-                cleanInterior,
-                cleanExterior,
-                hasInsurance
+                checkBoxLayout
             );
 
             rentValue.setValue((int) rentService.calculateRentPrice(cleanInterior.getValue(), cleanExterior.getValue(), hasInsurance.getValue(), licensePlate, takeOutDate.getValue(), returnDate.getValue()));
