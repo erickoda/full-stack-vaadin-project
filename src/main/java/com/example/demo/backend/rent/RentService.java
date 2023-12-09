@@ -12,8 +12,10 @@ import org.vaadin.crudui.crud.CrudListener;
 
 import com.example.demo.backend.operational.OperationalEntity;
 import com.example.demo.backend.operational.OperationalRepository;
+import com.example.demo.backend.operational.OperationalService;
 import com.example.demo.backend.vehicle.VehicleEntity;
 import com.example.demo.backend.vehicle.VehicleRepository;
+import com.example.demo.backend.vehicle.VehicleService;
 import com.example.demo.backend.vehicle.VehicleStatus;
 import com.example.demo.backend.vehicle.VehicleTier;
 
@@ -27,6 +29,9 @@ public class RentService implements CrudListener<RentEntity>
     private final VehicleRepository vehicleRepository;
     private final OperationalRepository operationalRepository;
     
+    private VehicleEntity       vehicle     = null;
+    private OperationalEntity   operational = null;
+
     /**
      * Returns a Collection of RentEntity objects stored in the database.
      * 
@@ -48,10 +53,10 @@ public class RentService implements CrudListener<RentEntity>
      */
     @Override
     public RentEntity add(RentEntity rent) {
-        if (!validateRent(rent))
-        {
-            return null;
-        }
+        // if (!validateRent(rent))
+        // {
+        //     return null;
+        // }
 
         return rentRepository.save(rent);
     }
@@ -143,6 +148,14 @@ public class RentService implements CrudListener<RentEntity>
             (rent.getStatus() != null);
     }
 
+
+    /**
+     * Verify if the vehicle is located in the period
+     * 
+     * @param   cpf     a cpf String to be validated 
+     * @return          true if valid, false if invalid
+     * @see             boolean
+     */
     public List<VehicleEntity> findUnrentedVehicles(LocalDate takeOutDate, LocalDate returnDate)
     {
         var vehicles = vehicleRepository.findAll();
@@ -193,49 +206,55 @@ public class RentService implements CrudListener<RentEntity>
         return vehiclesPlates;
     }
 
-    public float calculateRentPrice(Boolean cleanExterior, Boolean cleanInterior, Boolean insurance, String licensePlate, LocalDate takeOuDate, LocalDate returnDate)
+    public int calculateRentPrice(
+        VehicleService vehicleService, 
+        OperationalService operationalService,
+        VehicleTier tier,
+        String licensePlate,
+        LocalDate takeOuDate, 
+        LocalDate returnDate,
+        boolean cleanInterior,
+        boolean cleanExterior,
+        boolean insurance
+    ) 
     {
-        var vehicles = vehicleRepository.findAll();
-        var operational = operationalRepository.findAll();
-
-        VehicleEntity thisVehicle = null;
-        OperationalEntity thisOperational = null;
-
-        for (int i = 0; i < vehicles.size(); i++)
-        {
-            if (vehicles.get(i).getLicensePlate() == licensePlate)
-            {
-                thisVehicle = vehicles.get(i);
-                break;
-            }
-        }
-
-        for (int i = 0; i < operational.size(); i++)
-        {
-            if (operational.get(i).getTier() == thisVehicle.getTier())
-            {
-                thisOperational = operational.get(i);
-                break;
-            }
-        }
+    
+        // Get Vehicle By the Plate in label "License Plate" in New Rent
         
-        float totalRent = ChronoUnit.DAYS.between(takeOuDate, returnDate) * 
-             thisOperational.getDailyRent();
+        vehicleService
+            .findAll()
+            .stream()
+            .filter(v -> v.getLicensePlate().equals(licensePlate))
+            .findFirst()
+            .ifPresent(
+                v -> vehicle = v
+            );
 
-        if (cleanExterior)
-        {
-            totalRent += thisOperational.getExteriorCleaningValue();
-        }
-        if (cleanInterior)
-        {
-            totalRent += thisOperational.getInteriorCleaningValue();
-        }
-        if (insurance)
-        {
-            totalRent += ChronoUnit.DAYS.between(takeOuDate, returnDate) *
-                thisOperational.getInsuranceDailyValue();
-        }
+        if (vehicle == null) return -1;
+        
 
-        return totalRent;
+        // Get Operational params for Tier in label "Vehicle Tier" in New Rent  
+
+        operationalService
+            .findAll()
+            .stream()
+            .filter(op -> op.getTier().equals(tier))
+            .findFirst()
+            .ifPresent(
+                op -> operational = op 
+            );
+
+        if (operational == null) return -2;
+
+        long numberOfDay = ChronoUnit.DAYS.between(takeOuDate, returnDate);
+        
+        long totalRent = numberOfDay * operational.getDailyRent();
+
+        if (cleanExterior)  totalRent += operational.getExteriorCleaningValue();
+        if (cleanInterior)  totalRent += operational.getInteriorCleaningValue();
+        if (insurance)      totalRent += operational.getInsuranceDailyValue() * numberOfDay;
+
+        return (int) totalRent;
     }
+
 }

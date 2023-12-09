@@ -17,6 +17,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Margin.Horizontal;
 
 import jakarta.annotation.security.PermitAll;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +25,13 @@ import java.util.List;
 import org.springframework.boot.autoconfigure.integration.IntegrationProperties.RSocket.Client;
 
 import com.example.demo.backend.client.ClientService;
+import com.example.demo.backend.operational.OperationalService;
 import com.example.demo.backend.rent.RentEntity;
 import com.example.demo.backend.rent.RentService;
+import com.example.demo.backend.rent.RentStatus;
 import com.example.demo.backend.vehicle.VehicleEntity;
 import com.example.demo.backend.vehicle.VehicleService;
+import com.example.demo.backend.vehicle.VehicleStatus;
 import com.example.demo.backend.vehicle.VehicleTier;
 import com.example.demo.ui.MainLayout;
 import com.vaadin.flow.component.notification.Notification;
@@ -54,7 +58,7 @@ public class NewRent extends VerticalLayout {
     IntegerField yearOfFabrication = new IntegerField();
 
 
-    public NewRent(RentService rentService, VehicleService vehicleService, ClientService clientService){
+    public NewRent(OperationalService operationalService, RentService rentService, VehicleService vehicleService, ClientService clientService){
         H1 Title = new H1("New Rent");
 
         var binder = new Binder<>(RentEntity.class);
@@ -65,36 +69,31 @@ public class NewRent extends VerticalLayout {
         cpf.setItems(clientService.getAllCpfs());
 
         FormLayout RentForms = new FormLayout(takeOutDate, returnDate, cpf, rentValue/*, cleanInterior, cleanExterior, hasInsurance*/);
+        
+        
         Button SaveButton = new Button("Save", event -> {
             var rent = new RentEntity();
+            rent.setStatus(RentStatus.ACTIVE);
+
             binder.writeBeanIfValid(rent);
+            rent.setLicensePlate(licensePlateComboBox.getValue());
+                
+            
 
-            rent.setLicensePlate(licensePlate);
-
-            // rent.setTakeOutDate(takeOutDate.getValue());
-            // rent.setReturnDate(returnDate.getValue());
-
-            rent.setCpf(rent.getCpf().replaceAll(" ", ""));
-            rent.setCpf(rent.getCpf().replaceAll(".", ""));
-            rent.setCpf(rent.getCpf().replaceAll("-", ""));
-
-            // rent.setHasInsurance(hasInsurance.getValue());
-            // rent.setCleanExterior(cleanExterior.getValue());
-            // rent.setCleanInterior(cleanInterior.getValue());
-
-            // rent.setRentValue(rentValue.getValue());
+            rent.setCpf(rent.getCpf().replaceAll("[^0-9]", ""));
 
             // Do validation of rent just like isVehiclesFieldsValid
-
+            
             rentService.add(rent);
             Notification.show("Rent added successfully");
-            binder.readBean(new RentEntity());
+            // binder.readBean(new RentEntity());
         });
 
         Button BackButtons = new Button("Back", event -> {
             getUI().ifPresent(ui -> ui.navigate("rentss"));
         });
 
+        
         HorizontalLayout Buttons = new HorizontalLayout(BackButtons, SaveButton);
 
         vehicleGrid.addColumn(VehicleEntity::getLicensePlate).setHeader("License Plate");
@@ -110,42 +109,25 @@ public class NewRent extends VerticalLayout {
             RentForms.add(vehicleGrid);
             licensePlateComboBox.setItems(rentService.getUnrentedVehiclesPlates(vehicleService.getVehicle(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue()), vehicleTiersComboBox.getValue())));
         });
-        
+
         takeOutDate.addValueChangeListener(event -> {
-            if(returnDate.getValue() == null){
-                RentForms.remove(licensePlateComboBox);
-                RentForms.remove(vehicleTiersComboBox);
-                RentForms.remove(vehicleGrid);
-                return;
-            }
             if(takeOutDate.getValue().isAfter(returnDate.getValue())){
                 Notification.show("Return date needs to be after take out date");
+                takeOutDate.clear();
                 return;
             }
             
-            RentForms.add(vehicleTiersComboBox);
-            vehicleTiersComboBox.setItems(VehicleTier.values());
-
-            RentForms.add(licensePlateComboBox);
         });
 
         returnDate.addValueChangeListener(event -> {
-            if(takeOutDate.getValue() == null){
-                RentForms.remove(licensePlateComboBox);
-                RentForms.remove(vehicleTiersComboBox);
-                RentForms.remove(vehicleGrid);
-                return;
-            }
-
+            if (returnDate.getValue().toString().isEmpty()) {return;}
             if(takeOutDate.getValue().isAfter(returnDate.getValue())){
                 Notification.show("Return date needs to be after take out date");
+                returnDate.clear();
                 return;
             }
             
-            RentForms.add(vehicleTiersComboBox);
-            vehicleTiersComboBox.setItems(VehicleTier.values());
-
-            RentForms.add(licensePlateComboBox);
+            
         });
 
         VerticalLayout checkBoxLayout = new VerticalLayout();
@@ -162,7 +144,19 @@ public class NewRent extends VerticalLayout {
                 checkBoxLayout
             );
 
-            rentValue.setValue((int) rentService.calculateRentPrice(cleanInterior.getValue(), cleanExterior.getValue(), hasInsurance.getValue(), licensePlate, takeOutDate.getValue(), returnDate.getValue()));
+            int value = rentService.calculateRentPrice(
+                        vehicleService,
+                        operationalService,
+                        vehicleTiersComboBox.getValue(),
+                        licensePlateComboBox.getValue(),
+                        takeOutDate.getValue(),
+                        returnDate.getValue(),
+                        cleanInterior.getValue(),
+                        cleanExterior.getValue(),
+                        hasInsurance.getValue()
+                    );
+                if (value < 0) return;
+                rentValue.setValue(value);
             }
         );
 
@@ -170,7 +164,19 @@ public class NewRent extends VerticalLayout {
                 cleanInterior.setValue(
                     (Boolean) event.getValue()
                 );
-                rentValue.setValue((int) rentService.calculateRentPrice(cleanInterior.getValue(), cleanExterior.getValue(), hasInsurance.getValue(), licensePlate, takeOutDate.getValue(), returnDate.getValue()));
+                int value = rentService.calculateRentPrice(
+                        vehicleService,
+                        operationalService,
+                        vehicleTiersComboBox.getValue(),
+                        licensePlateComboBox.getValue(),
+                        takeOutDate.getValue(),
+                        returnDate.getValue(),
+                        cleanInterior.getValue(),
+                        cleanExterior.getValue(),
+                        hasInsurance.getValue()
+                    );
+                if (value < 0) return;
+                rentValue.setValue(value);
             }
         );
 
@@ -178,7 +184,19 @@ public class NewRent extends VerticalLayout {
                 cleanExterior.setValue(
                     (Boolean) event.getValue()
                 );
-                rentValue.setValue((int) rentService.calculateRentPrice(cleanInterior.getValue(), cleanExterior.getValue(), hasInsurance.getValue(), licensePlate, takeOutDate.getValue(), returnDate.getValue()));
+                int value = rentService.calculateRentPrice(
+                        vehicleService,
+                        operationalService,
+                        vehicleTiersComboBox.getValue(),
+                        licensePlateComboBox.getValue(),
+                        takeOutDate.getValue(),
+                        returnDate.getValue(),
+                        cleanInterior.getValue(),
+                        cleanExterior.getValue(),
+                        hasInsurance.getValue()
+                    );
+                if (value < 0) return;
+                rentValue.setValue(value);
             }
         );
 
@@ -186,15 +204,36 @@ public class NewRent extends VerticalLayout {
                 hasInsurance.setValue(
                     (Boolean) event.getValue()
                 );
-                rentValue.setValue((int) rentService.calculateRentPrice(cleanInterior.getValue(), cleanExterior.getValue(), hasInsurance.getValue(), licensePlate, takeOutDate.getValue(), returnDate.getValue()));
+                int value = rentService.calculateRentPrice(
+                        vehicleService,
+                        operationalService,
+                        vehicleTiersComboBox.getValue(),
+                        licensePlateComboBox.getValue(),
+                        takeOutDate.getValue(),
+                        returnDate.getValue(),
+                        cleanInterior.getValue(),
+                        cleanExterior.getValue(),
+                        hasInsurance.getValue()
+                    );
+                if (value < 0) return;
+                rentValue.setValue(value);
             }
         );
+
+        
+        
+        RentForms.add(vehicleTiersComboBox);
+            vehicleTiersComboBox.setItems(VehicleTier.values());
+
+            RentForms.add(licensePlateComboBox);
         
         add(
             Title, 
             RentForms,
             Buttons
         );
+
+        
     }
 
     public static boolean isVehiclesFieldsValid(VehicleEntity vehicle) {

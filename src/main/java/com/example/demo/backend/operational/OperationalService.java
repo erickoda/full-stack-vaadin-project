@@ -1,6 +1,7 @@
 package com.example.demo.backend.operational;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.vaadin.crudui.crud.CrudListener;
@@ -34,10 +35,10 @@ public class OperationalService implements CrudListener<OperationalEntity>
      */
     @Override
     public OperationalEntity add(OperationalEntity operational) {
-        if (validateData(operational))
-        {
-            return null;
-        }
+        // if (validateData(operational))
+        // {
+        //     return null;
+        // }
 
         return operationalRepository.save(operational);
     }
@@ -52,10 +53,10 @@ public class OperationalService implements CrudListener<OperationalEntity>
      */
     @Override
     public OperationalEntity update(OperationalEntity operational) {
-        if (validateData(operational))
-        {
-            return null;
-        }
+        // if (validateData(operational))
+        // {
+        //     return null;
+        // }
 
         return operationalRepository.save(operational);
     }
@@ -75,11 +76,7 @@ public class OperationalService implements CrudListener<OperationalEntity>
      */
     private boolean validateData(OperationalEntity operational)
     {
-        if (operational.getDailyRent() < 0 ||
-            operational.getExteriorCleaningValue() < 0 ||
-            operational.getFuelFillValue() < 0 ||
-            operational.getInsuranceDailyValue() < 0 ||
-            operational.getInteriorCleaningValue() < 0)
+        if (!operational.check())
         {
             return false;
         }

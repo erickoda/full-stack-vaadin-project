@@ -59,4 +59,36 @@ public class RentEntity
 
     @NotNull
     private boolean hasInsurance;
+
+    public RentEntity(RentStatus status) {
+        this.status = status;
+    }
+
+    public String getLicensePlate() {
+        return this.licensePlate;
+    }
+
+    public LocalDate getTakeOutDate() {
+        return this.takeOutDate;
+    }
+
+    public LocalDate getReturnDate() {
+        return this.returnDate;
+    }
+
+    public RentStatus getStatus() {
+        return this.status;
+    }
+
+    public boolean getCleanExterior() {
+        return this.cleanExterior;
+    }
+
+    public boolean getCleanInterior() {
+        return this.cleanInterior;
+    }
+
+    public boolean getHasInsurance() {
+        return this.hasInsurance;
+    }
 }

@@ -40,4 +40,38 @@ public class OperationalEntity
 
     @NotNull
     private int insuranceDailyValue;
+
+    public VehicleTier getTier() {
+        return this.tier;
+    }
+
+    public int getDailyRent() {
+        return this.dailyRent;
+    }
+
+    public int getFuelFillValue() {
+        return this.fuelFillValue;
+    }
+
+    public int getExteriorCleaningValue() {
+        return this.exteriorCleaningValue;
+    }
+
+    public int getInteriorCleaningValue() {
+        return this.interiorCleaningValue;
+    }
+
+    public int getInsuranceDailyValue() {
+        return this.insuranceDailyValue;
+    }
+
+    public boolean check() {
+        if (
+            this.tier == null || this.dailyRent < 0 || this.fuelFillValue < 0 ||
+            this.exteriorCleaningValue < 0 || this.interiorCleaningValue < 0 ||
+            this.insuranceDailyValue < 0
+        ) { return false;}
+
+        return true;
+    }
 }
