@@ -1,16 +1,20 @@
 package com.example.demo.ui.rent;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.charts.model.Back;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.lumo.LumoUtility.Margin.Horizontal;
+
 import jakarta.annotation.security.PermitAll;
 import com.vaadin.flow.data.binder.Binder;
 
@@ -84,6 +88,12 @@ public class NewRent extends VerticalLayout {
             Notification.show("Rent added successfully");
             binder.readBean(new RentEntity());
         });
+
+        Button BackButtons = new Button("Back", event -> {
+            getUI().ifPresent(ui -> ui.navigate("rentss"));
+        });
+
+        HorizontalLayout Buttons = new HorizontalLayout(BackButtons, SaveButton);
 
         vehicleGrid.addColumn(VehicleEntity::getLicensePlate).setHeader("License Plate");
         vehicleGrid.addColumn(VehicleEntity::getBuilder).setHeader("Builder");
@@ -177,10 +187,11 @@ public class NewRent extends VerticalLayout {
             }
         );
         
-        add(Title, 
+        add(
+            Title, 
             RentForms,
-            SaveButton
-            );
+            Buttons
+        );
     }
 
     public static boolean isVehiclesFieldsValid(VehicleEntity vehicle) {
