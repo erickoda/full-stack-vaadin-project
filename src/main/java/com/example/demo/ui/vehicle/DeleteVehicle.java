@@ -12,6 +12,7 @@ import com.example.demo.ui.MainLayout;
 import com.lowagie.text.Paragraph;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
@@ -46,7 +47,8 @@ public class DeleteVehicle extends VerticalLayout{
     public DeleteVehicle(VehicleService vehicleService) {
 
         ArrayList<String> vehiclePlatesStrings = new ArrayList<String>();
-
+        ConfirmDialog confirmDelete = new ConfirmDialog();
+        
         var binder = new Binder<>(VehicleEntity.class);
         binder.bindInstanceFields(this);
 
@@ -55,24 +57,15 @@ public class DeleteVehicle extends VerticalLayout{
         DeleteForms.setAlignItems(Alignment.BASELINE);
 
         DeleteButton.addClickListener(event -> {
-            if (chosenVehicle == null) {
-                Notification.show("Vehicle not found");
-                return;
-            }
 
-            if (reasonToDelete.getValue().isEmpty()) {
-                Notification.show("Reason to delete is empty");
-                return;
-            }
-            
-            binder.writeBeanIfValid(chosenVehicle);
-            
-            chosenVehicle.setStatus(VehicleStatus.DELETADO);
-            chosenVehicle.setReasonToDelete(reasonToDelete.getValue());
-
-            vehicleService.update(chosenVehicle);
-            Notification.show("Vehicle Deleted successfully.");
-            binder.readBean(new VehicleEntity());
+            confirmDelete.setHeader("Confirm Delete");
+            confirmDelete.setText(
+                "Are you sure you want to delete this vehicle?" +
+                "License Plate: " + chosenVehicle.getLicensePlate() + "\n" +
+                "Reason To Delete: " + reasonToDelete.getValue()
+            );
+            confirmDelete.open();
+            confirmDelete.addConfirmListener(e -> confirmDelete(vehicleService, binder));
         });
 
         vehicleService
@@ -103,6 +96,27 @@ public class DeleteVehicle extends VerticalLayout{
 
             showVehicleData();
         });
+    }
+
+    public void confirmDelete(VehicleService vehicleService, Binder<VehicleEntity> binder) {
+        if (chosenVehicle == null) {
+            Notification.show("Vehicle not found");
+            return;
+        }
+
+        if (reasonToDelete.getValue().isEmpty()) {
+            Notification.show("Reason to delete is empty");
+            return;
+        }
+        
+        binder.writeBeanIfValid(chosenVehicle);
+        
+        chosenVehicle.setStatus(VehicleStatus.DELETADO);
+        chosenVehicle.setReasonToDelete(reasonToDelete.getValue());
+
+        vehicleService.update(chosenVehicle);
+        Notification.show("Vehicle Deleted successfully.");
+        binder.readBean(new VehicleEntity());
     }
 
     public void getVehicle(VehicleService vehicleService, ComboBox<String> event) {
