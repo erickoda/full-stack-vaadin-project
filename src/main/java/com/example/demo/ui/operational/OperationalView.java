@@ -3,14 +3,6 @@ package com.example.demo.ui.operational;
 import com.example.demo.backend.operational.OperationalEntity;
 import com.example.demo.backend.operational.OperationalService;
 
-// import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-// import com.vaadin.flow.router.PageTitle;
-// import com.vaadin.flow.router.Route;
-// import jakarta.annotation.security.RolesAllowed;
-
-import com.example.demo.backend.vehicle.VehicleEntity;
-import com.example.demo.backend.vehicle.VehicleService;
-import com.example.demo.backend.vehicle.VehicleStatus;
 import com.example.demo.backend.vehicle.VehicleTier;
 import com.example.demo.ui.MainLayout;
 import com.example.demo.ui.vehicle.MainVehicleView;
@@ -18,11 +10,8 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -31,12 +20,6 @@ import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
-
-import java.util.Collection;
-import java.util.Optional;
-
-import org.vaadin.crudui.crud.impl.GridCrud;
 
 import jakarta.annotation.security.RolesAllowed;
 

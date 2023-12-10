@@ -1,9 +1,6 @@
 package com.example.demo.ui.vehicle;
 
 import java.util.ArrayList;
-import java.util.Collection;
-
-import org.vaadin.crudui.layout.impl.VerticalCrudLayout;
 
 import com.example.demo.backend.vehicle.VehicleEntity;
 import com.example.demo.backend.vehicle.VehicleService;
@@ -22,8 +19,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.lumo.LumoUtility.Margin.Horizontal;
-import com.vaadin.flow.theme.lumo.LumoUtility.Margin.Vertical;
 
 import jakarta.annotation.security.RolesAllowed;
 

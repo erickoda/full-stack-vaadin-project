@@ -1,6 +1,5 @@
 package com.example.demo.ui.rent;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.example.demo.backend.client.ClientService;
@@ -12,12 +11,10 @@ import com.lowagie.text.Paragraph;
 import com.vaadin.flow.component.HtmlComponent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -58,8 +55,6 @@ public class CancelRent extends  VerticalLayout {
         cpf.setItems(clientService.getAllCpfs());
         id.setItems(rentService.getAllIds());
         
-        VerticalLayout RentForms = new VerticalLayout(cpf);
-
         cpf.addValueChangeListener(event -> {
             // SELECT * FROM Rent WHERE cpf = cpf.input AND data.IsNow() AND (Status = ACTIVE OR Status = EFFECTED)
             rentService

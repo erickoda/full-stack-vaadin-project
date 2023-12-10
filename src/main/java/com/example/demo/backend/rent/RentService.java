@@ -6,18 +6,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.vaadin.crudui.crud.CrudListener;
 
-import com.example.demo.backend.client.ClientEntity;
 import com.example.demo.backend.operational.OperationalEntity;
-import com.example.demo.backend.operational.OperationalRepository;
 import com.example.demo.backend.operational.OperationalService;
 import com.example.demo.backend.vehicle.VehicleEntity;
 import com.example.demo.backend.vehicle.VehicleRepository;
 import com.example.demo.backend.vehicle.VehicleService;
-import com.example.demo.backend.vehicle.VehicleStatus;
 import com.example.demo.backend.vehicle.VehicleTier;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +24,6 @@ public class RentService implements CrudListener<RentEntity>
 {
     private final RentRepository rentRepository;
     private final VehicleRepository vehicleRepository;
-    private final OperationalRepository operationalRepository;
     
     private VehicleEntity       vehicle     = null;
     private OperationalEntity   operational = null;
