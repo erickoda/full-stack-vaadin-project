@@ -2,32 +2,20 @@ package com.example.demo.ui.rent;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.vaadin.crudui.crud.impl.GridCrud;
 
 import com.example.demo.backend.client.ClientService;
 import com.example.demo.backend.rent.RentEntity;
 import com.example.demo.backend.rent.RentService;
 import com.example.demo.backend.rent.RentStatus;
-import com.example.demo.backend.vehicle.VehicleEntity;
 import com.example.demo.ui.MainLayout;
 import com.lowagie.text.Paragraph;
 import com.vaadin.flow.component.HtmlComponent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 

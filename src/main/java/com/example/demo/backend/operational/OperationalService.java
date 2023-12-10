@@ -1,7 +1,6 @@
 package com.example.demo.backend.operational;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.vaadin.crudui.crud.CrudListener;

@@ -1,7 +1,6 @@
 package com.example.demo.ui.rent;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.charts.model.Back;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -11,18 +10,10 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.lumo.LumoUtility.Margin.Horizontal;
 
 import jakarta.annotation.security.PermitAll;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.binder.ValidationException;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.boot.autoconfigure.integration.IntegrationProperties.RSocket.Client;
 
 import com.example.demo.backend.client.ClientService;
 import com.example.demo.backend.operational.OperationalService;
@@ -31,7 +22,6 @@ import com.example.demo.backend.rent.RentService;
 import com.example.demo.backend.rent.RentStatus;
 import com.example.demo.backend.vehicle.VehicleEntity;
 import com.example.demo.backend.vehicle.VehicleService;
-import com.example.demo.backend.vehicle.VehicleStatus;
 import com.example.demo.backend.vehicle.VehicleTier;
 import com.example.demo.ui.MainLayout;
 import com.vaadin.flow.component.notification.Notification;

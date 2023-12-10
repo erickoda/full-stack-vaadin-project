@@ -7,8 +7,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.vaadin.crudui.crud.CrudListener;
 
-import com.example.demo.backend.client.ClientEntity;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
