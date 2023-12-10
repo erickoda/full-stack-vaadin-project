@@ -50,6 +50,12 @@ public class NoShow extends VerticalLayout {
     VerticalLayout ValueLable   = new VerticalLayout();
     ArrayList<RentEntity> rents = new ArrayList<RentEntity>();
 
+    /**
+     * Constructor to the web page to cancel a Rent
+     * 
+     * @param rentService   Service to RentEntity
+     * @param clientService Service to ClientEntity
+    */
     public NoShow(RentService rentService, ClientService clientService) {
         checkPendingRent(rentService);
 
@@ -87,6 +93,13 @@ public class NoShow extends VerticalLayout {
                 rentInfo);
     }
 
+    /**
+     * Function to update the text in the vehicle selection page of the web application
+     * 
+     * @param   rent  RentEntity
+     * @return        void
+     * @see        void
+     */
     public void RentVehicles(RentEntity rent) {
         // Messages That will be generated for All rent that pass the filters
         Paragraph RentIdParagraph           = new Paragraph(Integer.toString(rent.getId()));
@@ -122,6 +135,13 @@ public class NoShow extends VerticalLayout {
 
     }
 
+    /**
+     * Function to check if there is any pending rent
+     * 
+     * @param   rentService  RentService
+     * @return               void
+     * @see                  void
+    */
     public void checkPendingRent(RentService rentService) {
         
         // This instance One Time Witb title and N rows

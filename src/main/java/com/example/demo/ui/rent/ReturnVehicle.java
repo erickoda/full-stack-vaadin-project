@@ -154,6 +154,11 @@ public class ReturnVehicle extends VerticalLayout {
         rentValue.setValue(total);
     }
 
+    /**
+     * Function to get the operational param of the vehicle tier
+     * 
+     * @param operationalService
+    */
     static void getOperational(OperationalService operationalService) {
         // get the operational param with the tier of the rent vehicle
         operationalService
@@ -164,6 +169,11 @@ public class ReturnVehicle extends VerticalLayout {
             .ifPresent(op -> thisOperational = op);
     }
 
+    /**
+     * Function to get the rent of the vehicle matching the license plate
+     * 
+     * @param rentService
+    */
     static void getRent(RentService rentService) {
         rentService
             .findAll()
@@ -173,6 +183,11 @@ public class ReturnVehicle extends VerticalLayout {
             .ifPresent(rent -> thisRent = rent);
     }
 
+    /**
+     * Function to get the vehicle matching the license plate
+     * 
+     * @param vehicleService
+    */
     static void getVehicle(VehicleService vehicleService) {
         // get the vehicle with the plate
         vehicleService
@@ -184,6 +199,11 @@ public class ReturnVehicle extends VerticalLayout {
     }
 
 
+    /**
+     * Function to get all the plates of the vehicles that are rented
+     * 
+     * @param rentService
+    */
     static void getPlate(RentService rentService) {
         // get All plates for the cars that rent's return_date is today
         rentService
