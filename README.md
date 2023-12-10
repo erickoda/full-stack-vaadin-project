@@ -55,5 +55,18 @@ explain how to configure pgadmin
 
 ### Running the Webapp
 
+If you have maven installed you can just write this command line in the root of the project:
+```
+mvn spring-boot:run
+```
+Otherwise, if you are in a linux system and don't have maven you can use this command
+```
+./mvnw spring-boot:run
+```
+Or this command if you are in windows
+```
+mvnw.cmd spring-boot:run
+```
+
 ### Credits
 Erick Oda, Lorenzo Dutra, Henrique Bloemer, Raphael Zoega.
