@@ -10,6 +10,7 @@ import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.vaadin.crudui.crud.CrudListener;
 
+import com.example.demo.backend.client.ClientEntity;
 import com.example.demo.backend.operational.OperationalEntity;
 import com.example.demo.backend.operational.OperationalRepository;
 import com.example.demo.backend.operational.OperationalService;
@@ -53,11 +54,6 @@ public class RentService implements CrudListener<RentEntity>
      */
     @Override
     public RentEntity add(RentEntity rent) {
-        // if (!validateRent(rent))
-        // {
-        //     return null;
-        // }
-
         return rentRepository.save(rent);
     }
 
@@ -82,6 +78,17 @@ public class RentService implements CrudListener<RentEntity>
     @Override
     public void delete(RentEntity rent) {
         rentRepository.delete(rent);
+    }
+
+    public ArrayList<Integer> getAllIds() {
+        ArrayList<Integer> ids = new ArrayList<>();
+        Collection<RentEntity> rents = rentRepository.findAll();
+
+        for (var rent: rents) {
+            ids.add(rent.getId());
+        }
+
+        return ids;
     }
 
     /**

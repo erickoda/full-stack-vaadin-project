@@ -25,6 +25,10 @@ public class RentsView extends VerticalLayout {
         crud.setDeleteOperationVisible(false);
         crud.setUpdateOperationVisible(false);
         crud.getCrudLayout().addToolbarComponent(new RouterLink("New Rent", NewRent.class));
+        crud.getCrudLayout().addToolbarComponent(new RouterLink("Pick Vehicle", PickVehicle.class));
+        crud.getCrudLayout().addToolbarComponent(new RouterLink("Cancel Rent", CancelRent.class));
+        crud.getCrudLayout().addToolbarComponent(new RouterLink("No Show", NoShow.class));
+        crud.getCrudLayout().addToolbarComponent(new RouterLink("Return Vehicle", ReturnVehicle.class));
         
         add(
             new H1("Rents"),

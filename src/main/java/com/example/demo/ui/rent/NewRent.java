@@ -76,9 +76,7 @@ public class NewRent extends VerticalLayout {
             rent.setStatus(RentStatus.ACTIVE);
 
             binder.writeBeanIfValid(rent);
-            rent.setLicensePlate(licensePlateComboBox.getValue());
-                
-            
+            rent.setLicensePlate(licensePlateComboBox.getValue());            
 
             rent.setCpf(rent.getCpf().replaceAll("[^0-9]", ""));
 
@@ -106,11 +104,13 @@ public class NewRent extends VerticalLayout {
 
         vehicleTiersComboBox.addValueChangeListener(event -> {
             vehicleGrid.setItems(vehicleService.getVehicle(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue()), vehicleTiersComboBox.getValue()));
+            
             RentForms.add(vehicleGrid);
             licensePlateComboBox.setItems(rentService.getUnrentedVehiclesPlates(vehicleService.getVehicle(rentService.findUnrentedVehicles(takeOutDate.getValue(), returnDate.getValue()), vehicleTiersComboBox.getValue())));
         });
 
         takeOutDate.addValueChangeListener(event -> {
+            if (returnDate.isEmpty()) {return;}
             if(takeOutDate.getValue().isAfter(returnDate.getValue())){
                 Notification.show("Return date needs to be after take out date");
                 takeOutDate.clear();
@@ -120,7 +120,7 @@ public class NewRent extends VerticalLayout {
         });
 
         returnDate.addValueChangeListener(event -> {
-            if (returnDate.getValue().toString().isEmpty()) {return;}
+            if (takeOutDate.isEmpty()) {return;}
             if(takeOutDate.getValue().isAfter(returnDate.getValue())){
                 Notification.show("Return date needs to be after take out date");
                 returnDate.clear();
