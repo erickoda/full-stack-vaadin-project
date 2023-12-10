@@ -20,7 +20,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import jakarta.annotation.security.PermitAll;
-
+    
 @Route(value = "Pick Vehicle", layout = MainLayout.class)
 @PageTitle("Pick Vehicle")
 @PermitAll
@@ -54,7 +54,12 @@ public class PickVehicle extends VerticalLayout {
 
     
     ArrayList<RentEntity> rents = new ArrayList<RentEntity>();
-
+    /**
+     * Constructor to vehicle selector on web application
+     * 
+     * @param rentService
+     * @param clientService
+     */
     public PickVehicle(RentService rentService, ClientService clientService) {
 
         cpf.setItems(clientService.getAllCpfs());
@@ -118,6 +123,11 @@ public class PickVehicle extends VerticalLayout {
                 rentInfo);
     }
 
+    /**
+     * Function to update the text in the vehicle selection page of the web application
+     * 
+     * @param rent
+     */
     public void RentVehicles(RentEntity rent) {
         // Messages That will be generated for All rent that pass the filters
         Paragraph RentIdParagraph           = new Paragraph(Integer.toString(rent.getId()));

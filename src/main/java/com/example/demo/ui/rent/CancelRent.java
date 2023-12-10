@@ -54,6 +54,12 @@ public class CancelRent extends  VerticalLayout {
 
     Paragraph empty = new Paragraph("No Reserves for this CPF");
 
+    /**
+     * Constructor to the web page to cancel a Rent
+     * 
+     * @param rentService
+     * @param clientService
+     */
 
     public CancelRent(RentService rentService, ClientService clientService) {
 
@@ -133,6 +139,11 @@ public class CancelRent extends  VerticalLayout {
         );
     }
 
+    /**
+     * Function to set the text of the rent cancel web page
+     * 
+     * @param rent
+     */
     public void RentVehicles(RentEntity rent) {
         // Messages That will be generated for All rent that pass the filters
         Paragraph RentIdParagraph           = new Paragraph(Integer.toString(rent.getId()));

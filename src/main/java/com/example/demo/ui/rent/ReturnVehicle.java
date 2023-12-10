@@ -46,6 +46,13 @@ public class ReturnVehicle extends VerticalLayout {
     static RentEntity thisRent                  = null;
     static VehicleEntity thisVehicle            = null;
     static OperationalEntity thisOperational    = null;
+    /**
+     * Constructor to the Return Vehicle functionality of the web-app
+     * 
+     * @param operationalService
+     * @param vehicleService
+     * @param rentService
+     */
     public ReturnVehicle(OperationalService operationalService, VehicleService vehicleService, RentService rentService) {
         
 
@@ -110,6 +117,13 @@ public class ReturnVehicle extends VerticalLayout {
 
     }
 
+    /**
+     * Function to calculate rent value based on optionals chosen
+     * 
+     * @param rentService
+     * @param vehicleService
+     * @param operationalService
+     */
     static void calculateValue(
         RentService rentService, 
         VehicleService vehicleService, 

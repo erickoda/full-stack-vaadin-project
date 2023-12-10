@@ -29,6 +29,11 @@ public class NewClient extends VerticalLayout {
     TextField mobileNumber = new TextField("Mobile Number");
     boolean clientExists;
 
+    /**
+     * Constructor to the UI of the client page
+     * 
+     * @param clientService
+     */
     public NewClient(ClientService clientService) {
         H1 Title = new H1("New Client");
 
@@ -65,6 +70,12 @@ public class NewClient extends VerticalLayout {
         
     }
 
+    /**
+     * Function to verify if the a client exists
+     * 
+     * @param clientService
+     * @param client
+     */
     public void verifyClient(ClientService clientService, ClientEntity client) {
         clientService.findAll().forEach(clientEntity -> {
             if (client.getCpf().equals(clientEntity.getCpf())) {
@@ -73,6 +84,13 @@ public class NewClient extends VerticalLayout {
         });
     }
 
+    /**
+     * Function to test if a given new ClientEntity is valid by testing if it already exists
+     * 
+     * @param clientService
+     * @param client
+     * @return true if it does not exist and is valid, false otherwise
+     */
     public boolean clientIsValid(ClientService clientService, ClientEntity client) {
         verifyClient(clientService, client);
 

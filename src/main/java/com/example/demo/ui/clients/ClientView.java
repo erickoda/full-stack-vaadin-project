@@ -20,6 +20,11 @@ import jakarta.annotation.security.PermitAll;
 @PermitAll
 public class ClientView extends VerticalLayout {
 
+    /**
+     * Constructor for the client view page of the web-application
+     * 
+     * @param clientService
+     */
     public ClientView(ClientService clientService) {
 
         var crud = new GridCrud<>(ClientEntity.class, clientService);
@@ -42,6 +47,11 @@ public class ClientView extends VerticalLayout {
         );
     }
 
+    /**
+     * Function to create a number of new clients for testing purposes
+     * 
+     * @param clientService
+     */
     public void generateClients(ClientService clientService) {
         for(int i = 0; i < 10; i++) {
             ClientEntity client = new ClientEntity();

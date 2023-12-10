@@ -47,7 +47,14 @@ public class NewRent extends VerticalLayout {
 
     IntegerField yearOfFabrication = new IntegerField();
 
-
+    /**
+     * Constructor to web page for creating a new Rent
+     * 
+     * @param operationalService
+     * @param rentService
+     * @param vehicleService
+     * @param clientService
+     */
     public NewRent(OperationalService operationalService, RentService rentService, VehicleService vehicleService, ClientService clientService){
         H1 Title = new H1("New Rent");
 
@@ -226,6 +233,12 @@ public class NewRent extends VerticalLayout {
         
     }
 
+    /**
+     * Function to test if the values inputed to the vehicle to be rented are valid
+     * 
+     * @param vehicle
+     * @return false if any of the fields validated is incorrect, true otherwise
+     */
     public static boolean isVehiclesFieldsValid(VehicleEntity vehicle) {
 
         if (vehicle.getLicensePlate().length() != 7) {
