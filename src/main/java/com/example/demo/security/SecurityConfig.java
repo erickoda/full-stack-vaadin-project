@@ -18,6 +18,13 @@ import com.vaadin.flow.spring.security.VaadinWebSecurity;
 @Configuration
 public class SecurityConfig extends VaadinWebSecurity {
     
+    /**
+     * Configures the HttpSecurity object to allow access to the public
+     * 
+     * @param    http    An HttpSecurity object
+     * @return           void
+     * @see              void
+    */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -30,11 +37,24 @@ public class SecurityConfig extends VaadinWebSecurity {
         setLoginView(http, LoginView.class);
     }
 
+    /**
+     * Overrides the configure method of the WebSecurity object
+     * 
+     * @param    web     An WebSecurity object
+     * @return           void
+     * @see              void
+    */
     @Override
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
     }
 
+    /**
+     * Set the login users and their roles
+     * 
+     * @return           UserDetailsService
+     * @see              UserDetailsService
+    */
     @Bean
     protected UserDetailsService userDetailsService() {
         UserDetails funcionario =

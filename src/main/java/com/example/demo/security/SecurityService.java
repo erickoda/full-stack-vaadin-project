@@ -14,6 +14,13 @@ public class SecurityService {
 
     private static final String LOGOUT_SUCCESS_URL = "/";
 
+    /**
+     * Returns the authenticated user.
+     * If the user is not authenticated, returns null.
+     * 
+     * @return  UserDetails
+     * @see     UserDetails
+    */
     public UserDetails getAuthenticatedUser() {
         SecurityContext context = SecurityContextHolder.getContext();
         Object principal = context.getAuthentication().getPrincipal();
@@ -24,6 +31,12 @@ public class SecurityService {
         return null;
     }
 
+    /**
+     * Logout the user and redirect to the login page.
+     * 
+     * @return  void
+     * @see     void
+    */
     public void logout() {
         UI.getCurrent().getPage().setLocation(LOGOUT_SUCCESS_URL);
         SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();

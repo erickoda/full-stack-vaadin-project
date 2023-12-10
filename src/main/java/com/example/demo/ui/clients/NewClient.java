@@ -33,7 +33,7 @@ public class NewClient extends VerticalLayout {
      * Constructor to the UI of the client page
      * 
      * @param clientService
-     */
+    */
     public NewClient(ClientService clientService) {
         H1 Title = new H1("New Client");
 
