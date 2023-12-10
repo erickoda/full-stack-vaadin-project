@@ -123,6 +123,14 @@ public class EditOperationalView  extends VerticalLayout {
         );
     }
     
+    /**
+     * Get Operational Parameters querying with the tier
+     * 
+     * @param   operationalService    an OperationalService object
+     * @param   tier                  a VehicleTier object
+     * @return                        void
+     * @see                           void
+     */
     public static void getOperationalParam(OperationalService operationalService,  VehicleTier tier) {
         operationalService
             .findAll()
