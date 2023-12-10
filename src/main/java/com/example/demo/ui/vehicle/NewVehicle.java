@@ -1,5 +1,6 @@
 package com.example.demo.ui.vehicle;
 
+import com.example.demo.backend.rent.RentEntity;
 import com.example.demo.backend.vehicle.VehicleEntity;
 import com.example.demo.backend.vehicle.VehicleService;
 import com.example.demo.backend.vehicle.VehicleStatus;
@@ -34,6 +35,12 @@ public class NewVehicle extends VerticalLayout {
     private ComboBox<VehicleStatus> status = new ComboBox<VehicleStatus>("Status");
     private TextField reasonToDelete = new TextField("Reason To Delete");
     
+
+    /**
+    * Constructor to the New Vehicle Layout of web application
+    * 
+    * @param    vehiclesService   an VehicleService object
+    */
     public NewVehicle(VehicleService vehiclesService) {
 
         H1 Title;
@@ -88,6 +95,13 @@ public class NewVehicle extends VerticalLayout {
         );
     }
 
+    /**
+     * Verify if the user's inputs are valid to create a new Vehicle
+     * 
+     * @param   vehicle    a Vehicle Entity created by the user
+     * @return             true if the user's inputs are valid, false otherwise
+     * @see                boolean
+     */
     public static boolean isVehiclesFieldsValid(VehicleEntity vehicle) {
 
         if (vehicle.getLicensePlate().length() != 7) {

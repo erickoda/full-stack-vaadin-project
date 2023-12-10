@@ -1,6 +1,14 @@
 package com.example.demo.Utils;
 
 public class Check {
+
+    /**
+     * Get a CPF and checks if it is valid
+     * 
+     * @param    cpf     a String with the CPF to be checked
+     * @return           void
+     * @see              void
+    */
     public static boolean checkCPF(String cpf) {
         if (cpf == null || cpf.length() != 11)
             return false;

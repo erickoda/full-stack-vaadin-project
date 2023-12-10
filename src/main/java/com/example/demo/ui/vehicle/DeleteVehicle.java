@@ -39,6 +39,11 @@ public class DeleteVehicle extends VerticalLayout{
     H3 VehicleStatusTitle = new H3("Status");
     Button DeleteButton = new Button("Delete");
 
+    /**
+     * Constructor to the Delete Vehicle Layout of web application
+     * 
+     * @param    vehicleService   a VehicleService object
+    */
     public DeleteVehicle(VehicleService vehicleService) {
 
         ArrayList<String> vehiclePlatesStrings = new ArrayList<String>();
@@ -82,6 +87,13 @@ public class DeleteVehicle extends VerticalLayout{
         );
     }
 
+    /**
+    * Update the screen when the user selects a License Plate
+    * 
+    * @param    vehiclesService   a VehicleService object
+    * @return                     void
+    * @see                        void
+    */
     public void updateScreen(VehicleService vehicleService) {
         
         LicensePlateComboBox.addValueChangeListener(event -> {
@@ -97,6 +109,14 @@ public class DeleteVehicle extends VerticalLayout{
         });
     }
 
+    /**
+    * Update the status of the Vehicle to DELETADO and add the reason to delete
+    * 
+    * @param    vehiclesService   a VehicleService object
+    * @param    binder            a Binder<VehicleEntity> object
+    * @return                     void
+    * @see                        void
+    */
     public void confirmDelete(VehicleService vehicleService, Binder<VehicleEntity> binder) {
         if (chosenVehicle == null) {
             Notification.show("Vehicle not found");
@@ -118,6 +138,14 @@ public class DeleteVehicle extends VerticalLayout{
         binder.readBean(new VehicleEntity());
     }
 
+    /**
+    * Get the Vehicle querying with the License Plate
+    * 
+    * @param    vehiclesService   a VehicleService object
+    * @param    event             a ComboBox<String> object
+    * @return                     void
+    * @see                        void
+    */
     public void getVehicle(VehicleService vehicleService, ComboBox<String> event) {
         vehicleService
             .findAll()
@@ -129,6 +157,13 @@ public class DeleteVehicle extends VerticalLayout{
             });
     }
 
+    /**
+    * Show the data of the selected Vehicle in the screen
+    * 
+    * @param
+    * @return                     void
+    * @see                        void
+    */
     public void showVehicleData() {
         Paragraph VehicleBuilderParagraph = new Paragraph(chosenVehicle.getBuilder());
         Paragraph VehicleModelParagraph = new Paragraph(chosenVehicle.getModel());

@@ -14,6 +14,9 @@ import jakarta.annotation.security.PermitAll;
 @PermitAll
 public class MainView extends VerticalLayout {
     
+    /**
+    * Constructor to the Main View of web application
+    */
     public MainView() {
         addClassName("main-view");
         setSizeFull();

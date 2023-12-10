@@ -18,6 +18,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver, Ap
     
     private LoginForm login = new LoginForm();
 
+    /**
+    * Constructor to the Login View of web application
+    */
     public LoginView() {
 
         addClassName("login-view");
@@ -34,6 +37,13 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver, Ap
         );
     }
     
+    /**
+     * Before enter event to the Login View of web application
+     * 
+     * @param   beforeEnterEvent      A BeforeEnterEvent object
+     * @return                        void
+     * @see                           void
+    */
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         if (

@@ -22,6 +22,11 @@ import jakarta.annotation.security.RolesAllowed;
 @RolesAllowed("GERENTE")
 public class MainVehicleView extends VerticalLayout {
     
+    /**
+     * Constructor to the Main Vehicle View of web application
+     * 
+     * @param vehicleService    an VehicleService object
+     */
     public MainVehicleView(VehicleService vehicleService) {
 
         var crud = new GridCrud<>(VehicleEntity.class, vehicleService);
@@ -42,6 +47,11 @@ public class MainVehicleView extends VerticalLayout {
         );
     }
 
+    /**
+    * Generates vehicles with the propose to test the program
+    * 
+    * @param    vehiclesService   an VehicleService object to add the vehicles
+    */
     public void generateVehicles(VehicleService vehicleService) {
         for(int i = 0; i < 10; i++) {
             VehicleEntity vehicle = new VehicleEntity(); 
