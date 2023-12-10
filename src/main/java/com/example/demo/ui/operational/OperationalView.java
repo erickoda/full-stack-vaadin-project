@@ -38,6 +38,11 @@ public class OperationalView  extends VerticalLayout {
 
     private static OperationalEntity operationalEnt = null;
 
+    /**
+     * Constructor to the operational parameter edit web page
+     *  
+     * @param operationalService
+     */
     public OperationalView(OperationalService operationalService) {
         H3 Title;
         FormLayout operationalForms;

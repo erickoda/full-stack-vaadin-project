@@ -16,6 +16,11 @@ import jakarta.annotation.security.PermitAll;
 @PermitAll
 public class RentsView extends VerticalLayout {
     
+    /**
+     * Constructor to Rent functionality page of web application
+     * 
+     * @param rentService
+     */
     public RentsView(RentService rentService) {
 
         var crud = new GridCrud<>(RentEntity.class, rentService);
