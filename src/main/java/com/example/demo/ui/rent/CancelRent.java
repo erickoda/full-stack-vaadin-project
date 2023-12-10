@@ -36,6 +36,8 @@ public class CancelRent extends  VerticalLayout {
     // Layout for Output
     HorizontalLayout rentInfo   = new HorizontalLayout();
 
+    HorizontalLayout emptyLayout = new HorizontalLayout();
+
     // Titles for labels on output
     H4 RentIdTitle          = new H4("Id");
     H4 UserCpfTitle         = new H4("CPF");
@@ -50,27 +52,39 @@ public class CancelRent extends  VerticalLayout {
     VerticalLayout ValueLable   = new VerticalLayout();
     ArrayList<RentEntity> rents = new ArrayList<RentEntity>();
 
+    Paragraph empty = new Paragraph("No Reserves for this CPF");
+
+
     public CancelRent(RentService rentService, ClientService clientService) {
 
         cpf.setItems(clientService.getAllCpfs());
         id.setItems(rentService.getAllIds());
         
         cpf.addValueChangeListener(event -> {
+
+            // Cleaning the screen
+            IdLable.removeAll();
+            CpfLable.removeAll();
+            TakeLable.removeAll();
+            ReturnLable.removeAll();
+            ValueLable.removeAll();
+            // rentInfo.removeAll();
+            emptyLayout.removeAll();
+            rents.clear();
+
             // SELECT * FROM Rent WHERE cpf = cpf.input AND data.IsNow() AND (Status = ACTIVE OR Status = EFFECTED)
             rentService
-                    .findAll()
-                    .stream()
-                    .filter(rent -> rent.getStatus().equals(RentStatus.ACTIVE) || rent.getStatus().equals(RentStatus.EFFECTED))
-                    .filter(rent -> rent.getCpf().equals(cpf.getValue()))
-                    .forEach(rent -> RentVehicles(rent));
+                .findAll()
+                .stream()
+                .filter(rent -> rent.getStatus().equals(RentStatus.ACTIVE) || rent.getStatus().equals(RentStatus.EFFECTED))
+                .filter(rent -> rent.getCpf().equals(cpf.getValue()))
+                .forEach(rent -> RentVehicles(rent));
             
             if (rents.isEmpty()) {
-                Paragraph empty = new Paragraph("No Reserves for this CPF");
-                
-
-                rentInfo.add(empty.getContent());
-
+                emptyLayout.add(empty.getContent());
                 return;
+            } else {
+                emptyLayout.removeAll();
             }
         });
 
@@ -95,6 +109,9 @@ public class CancelRent extends  VerticalLayout {
 
             if (chooseRent == null) return;
 
+            cpf.clear();
+            id.clear();
+
             chooseRent.setStatus(RentStatus.CANCELLED);
             rentService.update(chooseRent);
         });
@@ -109,9 +126,11 @@ public class CancelRent extends  VerticalLayout {
         inputs.setAlignItems(Alignment.END);
 
         add(
-                new H1("Cancel Rental"),
-                inputs,
-                rentInfo);
+            new H1("Cancel Rental"),
+            inputs,
+            rentInfo,
+            emptyLayout
+        );
     }
 
     public void RentVehicles(RentEntity rent) {
@@ -141,7 +160,7 @@ public class CancelRent extends  VerticalLayout {
         ReturnLable.add(new HtmlComponent("br"));
         rentInfo.add(ReturnLable);
 
-        ValueLable.add(RentValueParagraph.getContent() + "R$");
+        ValueLable.add("R$" + RentValueParagraph.getContent());
         ValueLable.add(new HtmlComponent("br"));
         rentInfo.add(ValueLable);
 
