@@ -60,7 +60,6 @@ public class CancelRent extends  VerticalLayout {
      * @param rentService
      * @param clientService
      */
-
     public CancelRent(RentService rentService, ClientService clientService) {
 
         cpf.setItems(clientService.getAllCpfs());

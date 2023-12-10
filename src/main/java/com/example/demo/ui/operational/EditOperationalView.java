@@ -28,7 +28,7 @@ import jakarta.annotation.security.RolesAllowed;
 @Route(value = "operational", layout = MainLayout.class)
 @PageTitle("Operational")
 @RolesAllowed("GERENTE")
-public class OperationalView  extends VerticalLayout {
+public class EditOperationalView  extends VerticalLayout {
     private ComboBox<VehicleTier> tier = new ComboBox<VehicleTier>("Tier");
     private IntegerField dailyRent = new IntegerField("Daily Rentability");
     private IntegerField fuelFillValue = new IntegerField("Fuel Fill Value");
@@ -43,7 +43,7 @@ public class OperationalView  extends VerticalLayout {
      *  
      * @param operationalService
      */
-    public OperationalView(OperationalService operationalService) {
+    public EditOperationalView(OperationalService operationalService) {
         H3 Title;
         FormLayout operationalForms;
         Button BackButton;

@@ -14,7 +14,8 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.example.demo.security.SecurityService;
 import com.example.demo.ui.clients.ClientView;
-import com.example.demo.ui.operational.OperationalView;
+import com.example.demo.ui.operational.EditOperationalView;
+import com.example.demo.ui.operational.OperationMainView;
 import com.example.demo.ui.rent.RentsView;
 import com.example.demo.ui.vehicle.MainVehicleView;
 
@@ -60,7 +61,7 @@ public class MainLayout extends AppLayout {
         RouterLink rentView = new RouterLink("Rents", RentsView.class);
         clientView.setHighlightCondition(HighlightConditions.sameLocation());
 
-        RouterLink operationalView = new RouterLink("Operational", OperationalView.class);
+        RouterLink operationalView = new RouterLink("Operational", OperationMainView.class);
         clientView.setHighlightCondition(HighlightConditions.sameLocation());
 
         addToDrawer(new VerticalLayout(
