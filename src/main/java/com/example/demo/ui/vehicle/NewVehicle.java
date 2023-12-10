@@ -1,6 +1,5 @@
 package com.example.demo.ui.vehicle;
 
-import com.example.demo.backend.rent.RentEntity;
 import com.example.demo.backend.vehicle.VehicleEntity;
 import com.example.demo.backend.vehicle.VehicleService;
 import com.example.demo.backend.vehicle.VehicleStatus;
