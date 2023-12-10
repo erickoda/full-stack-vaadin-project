@@ -22,13 +22,25 @@ import com.example.demo.ui.vehicle.MainVehicleView;
 public class MainLayout extends AppLayout {
 
     private final SecurityService securityService;
-    
+
+    /**
+    * Constructor to the Main Layout of web application
+    *  
+    * @param operationalService   an OperationalService object
+    */
     public MainLayout(SecurityService securityService) {
         this.securityService = securityService;
         createHeader();
         createDrawer();
     }
 
+    /**
+     * Generates the Header view with logout and logo
+     * 
+     * @param
+     * @return                        void
+     * @see                           void
+    */
     private void createHeader() {
         ThemeList themeList = UI.getCurrent().getElement().getThemeList();
         themeList.add(Lumo.DARK);
@@ -48,6 +60,14 @@ public class MainLayout extends AppLayout {
         addToNavbar(header);
     }
 
+
+    /**
+     * Generates the Drawer view with all the links to the pages
+     * 
+     * @param
+     * @return                        void
+     * @see                           void
+    */
     private void createDrawer() {
         RouterLink mainView = new RouterLink("Main", MainView.class);
         mainView.setHighlightCondition(HighlightConditions.sameLocation());
