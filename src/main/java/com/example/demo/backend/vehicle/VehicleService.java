@@ -61,4 +61,30 @@ public class VehicleService implements CrudListener<VehicleEntity> {
 
         return wantedVehicle;
     }
+
+    public float percentageByStatus(VehicleStatus status) {
+        int counter = 0;
+        var allVehicles = vehicleRepository.findAll();
+        
+        for (var vehicle: allVehicles) {
+            if (vehicle.getStatus() == status) {
+                counter++;
+            }
+        }
+        
+        return (float) counter/allVehicles.size();
+    }
+
+    public float percentageByTier(VehicleTier tier) {
+        int counter = 0;
+        var allVehicles = vehicleRepository.findAll();
+        
+        for (var vehicle: allVehicles) {
+            if (vehicle.getTier() == tier) {
+                counter++;
+            }
+        }
+        
+        return (float) counter/allVehicles.size();
+    }
 }

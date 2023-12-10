@@ -16,6 +16,7 @@ import com.example.demo.security.SecurityService;
 import com.example.demo.ui.clients.ClientView;
 import com.example.demo.ui.operational.OperationMainView;
 import com.example.demo.ui.rent.RentsView;
+import com.example.demo.ui.reports.ReportsMainView;
 import com.example.demo.ui.vehicle.MainVehicleView;
 
 public class MainLayout extends AppLayout {
@@ -78,17 +79,21 @@ public class MainLayout extends AppLayout {
         clientView.setHighlightCondition(HighlightConditions.sameLocation());
 
         RouterLink rentView = new RouterLink("Rents", RentsView.class);
-        clientView.setHighlightCondition(HighlightConditions.sameLocation());
+        rentView.setHighlightCondition(HighlightConditions.sameLocation());
 
         RouterLink operationalView = new RouterLink("Operational", OperationMainView.class);
-        clientView.setHighlightCondition(HighlightConditions.sameLocation());
+        operationalView.setHighlightCondition(HighlightConditions.sameLocation());
+
+        RouterLink repportsView = new RouterLink("Reports", ReportsMainView.class);
+        repportsView.setHighlightCondition(HighlightConditions.sameLocation());
 
         addToDrawer(new VerticalLayout(
             mainView,
             vehicleView,
             clientView,
             rentView,
-            operationalView
+            operationalView,
+            repportsView
         ));
     }
 }
