@@ -53,6 +53,8 @@ public class PickVehicle extends VerticalLayout {
     VerticalLayout ReturnLable  = new VerticalLayout();
     VerticalLayout ValueLable   = new VerticalLayout();
 
+    Paragraph info = new Paragraph();
+
     
     ArrayList<RentEntity> rents = new ArrayList<RentEntity>();
     /**
@@ -68,6 +70,8 @@ public class PickVehicle extends VerticalLayout {
         
 
         cpf.addValueChangeListener(event -> {
+            ArrayList<Integer> availableRents = new ArrayList<Integer>();
+
             // SELECT * FROM Rent WHERE cpf = cpf.input AND data.IsNow() AND Status = ACTIVE
             rentService
                     .findAll()
@@ -75,22 +79,28 @@ public class PickVehicle extends VerticalLayout {
                     .filter(rent -> rent.getStatus().equals(RentStatus.ACTIVE))
                     .filter(rent -> rent.getCpf().equals(cpf.getValue()))
                     .filter(rent -> rent.getTakeOutDate().equals(LocalDate.now()))
-                    .forEach(rent -> RentVehicles(rent));
+                    .forEach(rent -> {
+                        RentVehicles(rent);
+                        availableRents.add(rent.getId());
+                    });
+
+            id.setItems(availableRents);
             
-            if (rents.isEmpty()) {
-                Paragraph empty = new Paragraph("No Reserves for this CPF");
-                rentInfo.add(empty.getContent());
+            if (availableRents.isEmpty()) {
+                rentInfo.removeAll();
+                info = new Paragraph("No Reserves for this CPF");
+                rentInfo.add(info.getContent());
                 return;
             }
         });
 
 
-        // Still Not Add on screen, but its for be the first (title) on Vertical Layout
-        IdLable.add(RentIdTitle);
-        CpfLable.add(UserCpfTitle);
-        TakeLable.add(RentTakeOutDateTitle);
-        ReturnLable.add(RentReturnDateTitle);
-        ValueLable.add(RentValueTitle);
+        // // Still Not Add on screen, but its for be the first (title) on Vertical Layout
+        // IdLable.add(RentIdTitle);
+        // CpfLable.add(UserCpfTitle);
+        // TakeLable.add(RentTakeOutDateTitle);
+        // ReturnLable.add(RentReturnDateTitle);
+        // ValueLable.add(RentValueTitle);
 
         confirm.addClickListener(event -> {
             int chooseId = id.getValue();
@@ -132,32 +142,44 @@ public class PickVehicle extends VerticalLayout {
      */
     public void RentVehicles(RentEntity rent) {
         // Messages That will be generated for All rent that pass the filters
-        Paragraph RentIdParagraph           = new Paragraph(Integer.toString(rent.getId()));
-        Paragraph UserCpfParagraph          = new Paragraph(rent.getCpf());
-        Paragraph RentTakeOutDateParagraph  = new Paragraph(rent.getTakeOutDate().toString());
-        Paragraph RentReturnDateParagraph   = new Paragraph(rent.getReturnDate().toString());
-        Paragraph RentValueParagraph        = new Paragraph(Integer.toString(rent.getRentValue()));
+        rentInfo.removeAll();
+        info = new Paragraph("");
         rents.add(rent);
-
-        // Adding the values under the title
-
-        IdLable.add(RentIdParagraph.getContent());
+        
+        // Adding the values under the titlerents
+        
+        info = new Paragraph(Integer.toString(rent.getId()));
+        IdLable.removeAll();
+        IdLable.add(RentIdTitle);
+        IdLable.add(info.getContent());
         IdLable.add(new HtmlComponent("br"));
         rentInfo.add(IdLable);
-
-        CpfLable.add(UserCpfParagraph.getContent());
+        
+        info = new Paragraph(rent.getCpf());
+        CpfLable.removeAll();
+        CpfLable.add(UserCpfTitle);
+        CpfLable.add(info.getContent());
         CpfLable.add(new HtmlComponent("br"));
         rentInfo.add(CpfLable);
-
-        TakeLable.add(RentTakeOutDateParagraph.getContent());
+        
+        info = new Paragraph(rent.getTakeOutDate().toString());
+        TakeLable.removeAll();
+        TakeLable.add(RentTakeOutDateTitle);
+        TakeLable.add(info.getContent());
         TakeLable.add(new HtmlComponent("br"));
         rentInfo.add(TakeLable);
-
-        ReturnLable.add(RentReturnDateParagraph.getContent());
+        
+        info = new Paragraph(rent.getReturnDate().toString());
+        ReturnLable.removeAll();
+        ReturnLable.add(RentReturnDateTitle);
+        ReturnLable.add(info.getContent());
         ReturnLable.add(new HtmlComponent("br"));
         rentInfo.add(ReturnLable);
-
-        ValueLable.add(RentValueParagraph.getContent() + "R$");
+        
+        info = new Paragraph(Integer.toString(rent.getRentValue()));
+        ValueLable.removeAll();
+        ValueLable.add(RentValueTitle);
+        ValueLable.add("R$" + info.getContent());
         ValueLable.add(new HtmlComponent("br"));
         rentInfo.add(ValueLable);
 
