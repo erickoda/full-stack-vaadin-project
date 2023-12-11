@@ -41,7 +41,8 @@ public class ReportsMainView extends VerticalLayout {
         ) {
         add(
             Title,
-            VehicleReports(vehicleService)
+            VehicleReports(vehicleService),
+            ClientsReports(clientService)
         );
     }
 
@@ -76,11 +77,30 @@ public class ReportsMainView extends VerticalLayout {
         reports.add(vehicleStatus);
         reports.add(new H4("Tier"));
         reports.add(vehicleTier);
+
+        // reports.addClassNames(null);
         
         return reports;
     }
 
-    public Component ClientsReports() {
-        return null;
+    public Component ClientsReports(ClientService clientService) {
+
+        HorizontalLayout clientBirthday = new HorizontalLayout();
+        VerticalLayout reports = new VerticalLayout();
+
+        for (int i = 0; i < 10; i++) {
+
+            float percentage = (float) clientService.percentageOfClientsWithAgeBetween(i*10, (i+1)*10) * 100;
+
+            clientBirthday.add(
+                new Span(i*10 + " e " + (i + 1)*10 + ": " + String.format("%.2f", percentage) + "%")
+            );
+        }
+
+        reports.add(new H2("Clients"));
+        reports.add(new H4("Age"));
+        reports.add(clientBirthday);
+
+        return reports;
     }
 }
