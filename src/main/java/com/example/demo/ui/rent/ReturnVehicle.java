@@ -210,7 +210,7 @@ public class ReturnVehicle extends VerticalLayout {
             .findAll()
             .stream()
             .filter(rent -> rent.getStatus().equals(RentStatus.EFFECTED))
-            .filter(rent -> rent.getStatus().equals(RentStatus.ACTIVE))
+            /*.filter(rent -> rent.getStatus().equals(RentStatus.ACTIVE))*/
             .filter(rent -> rent.getReturnDate().equals(LocalDate.now()))
             .forEach(rent -> plates.add(rent.getLicensePlate()));
 
