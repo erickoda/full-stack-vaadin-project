@@ -43,7 +43,7 @@ public class ReportsMainView extends VerticalLayout {
      * Creates a component that shows percentage data of vehicles by status and tier
      * 
      * @param   vehicleService        A VehicleService object
-     * @return  Component             A component with the percentage of clients with age between 0 and 10,
+     * @return  Component             A component with the vehicle percentage data,
      * @see                           Component
     */
     public Component VehicleReports(VehicleService vehicleService) {
@@ -110,6 +110,21 @@ public class ReportsMainView extends VerticalLayout {
         reports.add(new H4("Age"));
         reports.add(clientBirthday);
 
+        return reports;
+    }
+
+
+    /**
+     * 
+     * 
+     * @param   rentService           A RentService object
+     * @return  Component             A component with the percentage Rents Data,
+     * @see                           Component
+    */
+    public Component RentsReports(RentService rentService) {
+        HorizontalLayout quantityOfRentWeeks = new HorizontalLayout();
+        VerticalLayout reports = new VerticalLayout();
+        
         return reports;
     }
 }
