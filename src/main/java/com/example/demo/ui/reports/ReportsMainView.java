@@ -1,25 +1,16 @@
 package com.example.demo.ui.reports;
 
-import org.vaadin.reports.PrintPreviewReport;
-
 import com.example.demo.backend.client.ClientService;
 import com.example.demo.backend.rent.RentService;
-import com.example.demo.backend.vehicle.VehicleEntity;
+import com.example.demo.backend.rent.RentStatus;
 import com.example.demo.backend.vehicle.VehicleService;
 import com.example.demo.backend.vehicle.VehicleStatus;
 import com.example.demo.backend.vehicle.VehicleTier;
 import com.example.demo.ui.MainLayout;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.charts.Chart;
-import com.vaadin.flow.component.charts.model.ChartType;
-import com.vaadin.flow.component.charts.model.DataSeries;
-import com.vaadin.flow.component.charts.model.DataSeriesItem;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.html.H5;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -34,6 +25,9 @@ import jakarta.annotation.security.RolesAllowed;
 public class ReportsMainView extends VerticalLayout {
     H1 Title = new H1("Reports");
     
+    /**
+     * Constructor to the Reports Main View of web application
+    */
     public ReportsMainView(
         ClientService clientService,
         RentService rentService,
@@ -41,10 +35,19 @@ public class ReportsMainView extends VerticalLayout {
         ) {
         add(
             Title,
-            VehicleReports(vehicleService)
+            VehicleReports(vehicleService),
+            ClientsReports(clientService),
+            RentsReports(rentService)
         );
     }
-
+    
+    /**
+     * Creates a component that shows percentage data of vehicles by status and tier
+     * 
+     * @param   vehicleService        A VehicleService object
+     * @return  Component             A component with the vehicle percentage data,
+     * @see                           Component
+    */
     public Component VehicleReports(VehicleService vehicleService) {
 
         HorizontalLayout vehicleStatus = new HorizontalLayout();
@@ -76,11 +79,68 @@ public class ReportsMainView extends VerticalLayout {
         reports.add(vehicleStatus);
         reports.add(new H4("Tier"));
         reports.add(vehicleTier);
+
+        // reports.addClassNames(null);
         
         return reports;
     }
 
-    public Component ClientsReports() {
-        return null;
+
+    /**
+     * Creates a component that shows the percentage of clients with age between 0 and 10,
+     * 10 and 20, and so on
+     * 
+     * @param   clientService         A ClientService object
+     * @return  Component             A component with the percentage of clients with age between 0 and 10,
+     * @see                           Component
+    */
+    public Component ClientsReports(ClientService clientService) {
+
+        HorizontalLayout clientBirthday = new HorizontalLayout();
+        VerticalLayout reports = new VerticalLayout();
+
+        for (int i = 0; i < 10; i++) {
+
+            float percentage = (float) clientService.percentageOfClientsWithAgeBetween(i*10, (i+1)*10) * 100;
+
+            clientBirthday.add(
+                new Span(i*10 + " e " + (i + 1)*10 + ": " + String.format("%.2f", percentage) + "%")
+            );
+        }
+
+        reports.add(new H2("Clients"));
+        reports.add(new H4("Age"));
+        reports.add(clientBirthday);
+
+        return reports;
+    }
+
+
+    /**
+     * Creates a component that shows the percentage of rents with status
+     * 
+     * @param   rentService           A RentService object
+     * @return  Component             A component with the percentage Rents Data,
+     * @see                           Component
+    */
+    public Component RentsReports(RentService rentService) {
+        HorizontalLayout statusPercentage = new HorizontalLayout();
+        VerticalLayout reports = new VerticalLayout();
+        
+        for (RentStatus status : RentStatus.values()) {
+
+            float percentage = (float) rentService.percentageByStatus(status) * 100;
+            String percentageString = String.format("%.2f", percentage);
+
+            statusPercentage.add(
+                new Span(status.toString() + ": " + percentageString + "%")
+            );
+        }
+
+        reports.add(new H2("Rents"));
+        reports.add(new H4("Status"));
+        reports.add(statusPercentage);
+        
+        return reports;
     }
 }
