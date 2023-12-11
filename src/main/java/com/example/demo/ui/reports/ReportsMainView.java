@@ -1,7 +1,5 @@
 package com.example.demo.ui.reports;
 
-import org.springframework.data.repository.support.Repositories;
-
 import com.example.demo.backend.client.ClientService;
 import com.example.demo.backend.rent.RentService;
 import com.example.demo.backend.rent.RentStatus;
