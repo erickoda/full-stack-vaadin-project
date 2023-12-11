@@ -1,5 +1,7 @@
 package com.example.demo.ui.reports;
 
+import org.springframework.data.repository.support.Repositories;
+
 import com.example.demo.backend.client.ClientService;
 import com.example.demo.backend.rent.RentService;
 import com.example.demo.backend.rent.RentStatus;
@@ -8,6 +10,7 @@ import com.example.demo.backend.vehicle.VehicleStatus;
 import com.example.demo.backend.vehicle.VehicleTier;
 import com.example.demo.ui.MainLayout;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H4;
@@ -24,6 +27,9 @@ import jakarta.annotation.security.RolesAllowed;
 @RolesAllowed("GERENTE")
 public class ReportsMainView extends VerticalLayout {
     H1 Title = new H1("Reports");
+    Checkbox Vehicle = new Checkbox("Vehicle");
+    Checkbox Client  = new Checkbox("Client");
+    Checkbox Rent    = new Checkbox("Rent");
     
     /**
      * Constructor to the Reports Main View of web application
@@ -32,12 +38,59 @@ public class ReportsMainView extends VerticalLayout {
         ClientService clientService,
         RentService rentService,
         VehicleService vehicleService
-        ) {
+    ) {
+        VerticalLayout Reports = new VerticalLayout();
+
+        
+        Vehicle.addValueChangeListener(event -> {
+            if (event.getValue()) {
+                Reports.add(VehicleReports(vehicleService));
+            } else {
+                Reports.removeAll();
+                if (Client.getValue()) {
+                    Reports.add(ClientsReports(clientService));
+                }
+
+                if (Rent.getValue()) {
+                    Reports.add(RentsReports(rentService));
+                }
+            }
+        });
+        Client.addValueChangeListener(event -> {
+            if (event.getValue()) {
+                Reports.add(ClientsReports(clientService));
+            } else {
+                Reports.removeAll();
+                if (Vehicle.getValue()) {
+                    Reports.add(VehicleReports(vehicleService));
+                }
+
+                if (Rent.getValue()) {
+                    Reports.add(RentsReports(rentService));
+                }
+            }
+        });
+        Rent.addValueChangeListener(event -> {
+            if (event.getValue()) {
+                Reports.add(RentsReports(rentService));
+            } else {
+                Reports.removeAll();
+                if (Vehicle.getValue()) {
+                    Reports.add(VehicleReports(vehicleService));
+                }
+
+                if (Client.getValue()) {
+                    Reports.add(ClientsReports(clientService));
+                }
+            }
+        });
+
+        HorizontalLayout Options = new HorizontalLayout(Vehicle, Client, Rent);
+        
         add(
             Title,
-            VehicleReports(vehicleService),
-            ClientsReports(clientService),
-            RentsReports(rentService)
+            Options,
+            Reports
         );
     }
     
