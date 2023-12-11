@@ -113,7 +113,19 @@ public class NewRent extends VerticalLayout {
                 takeOutDate.clear();
                 return;
             }
-            
+            int value = rentService.calculateRentPrice(
+                        vehicleService,
+                        operationalService,
+                        vehicleTiersComboBox.getValue(),
+                        licensePlateComboBox.getValue(),
+                        takeOutDate.getValue(),
+                        returnDate.getValue(),
+                        cleanInterior.getValue(),
+                        cleanExterior.getValue(),
+                        hasInsurance.getValue()
+                    );
+            if (value < 0) return;
+            rentValue.setValue(value);
         });
 
         returnDate.addValueChangeListener(event -> {
@@ -123,7 +135,19 @@ public class NewRent extends VerticalLayout {
                 returnDate.clear();
                 return;
             }
-            
+            int value = rentService.calculateRentPrice(
+                        vehicleService,
+                        operationalService,
+                        vehicleTiersComboBox.getValue(),
+                        licensePlateComboBox.getValue(),
+                        takeOutDate.getValue(),
+                        returnDate.getValue(),
+                        cleanInterior.getValue(),
+                        cleanExterior.getValue(),
+                        hasInsurance.getValue()
+                    );
+            if (value < 0) return;
+            rentValue.setValue(value);
             
         });
 
