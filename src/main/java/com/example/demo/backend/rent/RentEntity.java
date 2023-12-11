@@ -27,7 +27,7 @@ public class RentEntity
 {
     @EqualsAndHashCode.Include
     @NotNull
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private int id;
 
