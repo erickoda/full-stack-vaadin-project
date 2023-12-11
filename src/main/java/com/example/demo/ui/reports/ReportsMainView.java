@@ -34,6 +34,9 @@ import jakarta.annotation.security.RolesAllowed;
 public class ReportsMainView extends VerticalLayout {
     H1 Title = new H1("Reports");
     
+    /**
+     * Constructor to the Reports Main View of web application
+    */
     public ReportsMainView(
         ClientService clientService,
         RentService rentService,
@@ -45,7 +48,14 @@ public class ReportsMainView extends VerticalLayout {
             ClientsReports(clientService)
         );
     }
-
+    
+    /**
+     * Creates a component that shows percentage data of vehicles by status and tier
+     * 
+     * @param   vehicleService        A VehicleService object
+     * @return  Component             A component with the percentage of clients with age between 0 and 10,
+     * @see                           Component
+    */
     public Component VehicleReports(VehicleService vehicleService) {
 
         HorizontalLayout vehicleStatus = new HorizontalLayout();
@@ -83,6 +93,15 @@ public class ReportsMainView extends VerticalLayout {
         return reports;
     }
 
+
+    /**
+     * Creates a component that shows the percentage of clients with age between 0 and 10,
+     * 10 and 20, and so on
+     * 
+     * @param   clientService         A ClientService object
+     * @return  Component             A component with the percentage of clients with age between 0 and 10,
+     * @see                           Component
+    */
     public Component ClientsReports(ClientService clientService) {
 
         HorizontalLayout clientBirthday = new HorizontalLayout();
