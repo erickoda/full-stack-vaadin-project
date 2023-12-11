@@ -14,6 +14,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -107,6 +108,7 @@ public class PickVehicle extends VerticalLayout {
 
             chooseRent.setStatus(RentStatus.EFFECTED);
             rentService.update(chooseRent);
+            Notification.show("Vehicle successfully taken");
         });
 
         back.addClickListener(event -> {
