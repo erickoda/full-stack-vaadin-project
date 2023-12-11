@@ -196,6 +196,14 @@ public class RentService implements CrudListener<RentEntity>
         return vehicles;
     }
 
+    /**
+     * Returns a List of String that represents
+     * the unrented vehicles plates.
+     * 
+     * @param   availableVehicles   a List of VehicleEntity
+     * @return  List<String>        a List of vehicles plates
+     * @see     Collection
+    */
     public List<String> getUnrentedVehiclesPlates(List<VehicleEntity> availableVehicles)
     {
         List<String> vehiclesPlates = new ArrayList<String>();
@@ -208,6 +216,21 @@ public class RentService implements CrudListener<RentEntity>
         return vehiclesPlates;
     }
 
+    /**
+     * Returns a int that represents the calculated rent price.
+     * 
+     * @param   vehicleService        a VehicleService Object
+     * @param   operationalService    a OperationalService Object
+     * @param   tier                  a VehicleTier Object
+     * @param   licensePlate          a String that represents the license plate
+     * @param   takeOuDate            a LocalDate that represents the take out date
+     * @param   returnDate            a LocalDate that represents the return date
+     * @param   cleanInterior         a boolean that represents if the interior is clean
+     * @param   cleanExterior         a boolean that represents if the exterior is clean
+     * @param   insurance             a boolean that represents if the insurance is active
+     * @return  int                   a int that represents the calculated rent price
+     * @see     Integer
+    */
     public int calculateRentPrice(
         VehicleService vehicleService, 
         OperationalService operationalService,
@@ -259,6 +282,14 @@ public class RentService implements CrudListener<RentEntity>
         return (int) totalRent;
     }
 
+    /**
+     * Returns a float that represents the percentage
+     * of the rent by status
+     * 
+     * @param   status     a RentStatus Object
+     * @return  float      a float that represents the percentage of the rent by status
+     * @see     Float
+    */
     public float percentageByStatus(RentStatus status) {
         int counter = 0;
         var allRents = rentRepository.findAll();

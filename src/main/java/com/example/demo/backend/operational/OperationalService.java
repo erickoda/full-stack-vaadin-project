@@ -60,6 +60,13 @@ public class OperationalService implements CrudListener<OperationalEntity>
         return operationalRepository.save(operational);
     }
 
+    /**
+     * Deletes an OperationalEntity from the database.
+     * 
+     * @param   operational     an OperationalEntity to be deleted to the database
+     * @return                  an OperationalEntity
+     * @see                     OperationalEntity
+     */
     @Override
     public void delete(OperationalEntity operational) {
 
