@@ -7,6 +7,7 @@ import com.example.demo.backend.rent.RentEntity;
 import com.example.demo.backend.rent.RentService;
 import com.example.demo.backend.rent.RentStatus;
 import com.example.demo.ui.MainLayout;
+import com.fasterxml.jackson.annotation.JacksonInject.Value;
 import com.lowagie.text.Paragraph;
 import com.vaadin.flow.component.HtmlComponent;
 import com.vaadin.flow.component.button.Button;
@@ -50,6 +51,8 @@ public class NoShow extends VerticalLayout {
     VerticalLayout ValueLable   = new VerticalLayout();
     ArrayList<RentEntity> rents = new ArrayList<RentEntity>();
 
+    Paragraph info = new Paragraph();
+
     /**
      * Constructor to the web page to cancel a Rent
      * 
@@ -58,6 +61,19 @@ public class NoShow extends VerticalLayout {
     */
     public NoShow(RentService rentService, ClientService clientService) {
         checkPendingRent(rentService);
+
+        ArrayList<String> effectedRents = new ArrayList<String>();
+
+        rentService
+                .findAll()
+                .stream()
+                .filter(rent -> rent.getStatus().equals(RentStatus.ACTIVE))
+                .forEach(rent -> {
+                    RentVehicles(rent);
+                    effectedRents.add(rent.getCpf());
+                });
+        System.out.println(effectedRents.size());
+        cpf.setItems(effectedRents);
 
         confirm.addClickListener(event -> {
             int chooseId = id.getValue();
@@ -102,34 +118,41 @@ public class NoShow extends VerticalLayout {
      */
     public void RentVehicles(RentEntity rent) {
         // Messages That will be generated for All rent that pass the filters
-        Paragraph RentIdParagraph           = new Paragraph(Integer.toString(rent.getId()));
-        Paragraph UserCpfParagraph          = new Paragraph(rent.getCpf());
-        Paragraph RentTakeOutDateParagraph  = new Paragraph(rent.getTakeOutDate().toString());
-        Paragraph RentReturnDateParagraph   = new Paragraph(rent.getReturnDate().toString());
-        Paragraph RentValueParagraph        = new Paragraph(Integer.toString(rent.getRentValue()));
+        rentInfo.removeAll();
+        info = new Paragraph();
         rents.add(rent);
         
         id.setItems(rent.getId());
-
+        
         // Adding the values under the title (The rows)
-
-        IdLable.add(RentIdParagraph.getContent());
+        
+        info = new Paragraph(Integer.toString(rent.getId()));
+        IdLable.removeAll();
+        IdLable.add(info.getContent());
         IdLable.add(new HtmlComponent("br"));
         rentInfo.add(IdLable);
-
-        CpfLable.add(UserCpfParagraph.getContent());
+        
+        info = new Paragraph(rent.getCpf());
+        CpfLable.removeAll();
+        CpfLable.add(info.getContent());
         CpfLable.add(new HtmlComponent("br"));
         rentInfo.add(CpfLable);
-
-        TakeLable.add(RentTakeOutDateParagraph.getContent());
+        
+        info = new Paragraph(rent.getTakeOutDate().toString());
+        TakeLable.removeAll();
+        TakeLable.add(info.getContent());
         TakeLable.add(new HtmlComponent("br"));
         rentInfo.add(TakeLable);
-
-        ReturnLable.add(RentReturnDateParagraph.getContent());
+        
+        info = new Paragraph(rent.getReturnDate().toString());
+        ReturnLable.removeAll();
+        ReturnLable.add(info.getContent());
         ReturnLable.add(new HtmlComponent("br"));
         rentInfo.add(ReturnLable);
-
-        ValueLable.add(RentValueParagraph.getContent() + "R$");
+        
+        info = new Paragraph(Integer.toString(rent.getRentValue()));
+        ValueLable.removeAll();
+        ValueLable.add("R$" + info.getContent());
         ValueLable.add(new HtmlComponent("br"));
         rentInfo.add(ValueLable);
 
