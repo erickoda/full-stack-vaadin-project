@@ -117,7 +117,7 @@ public class ReportsMainView extends VerticalLayout {
 
 
     /**
-     * 
+     * Creates a component that shows the percentage of rents with status
      * 
      * @param   rentService           A RentService object
      * @return  Component             A component with the percentage Rents Data,
