@@ -2,6 +2,7 @@ package com.example.demo.ui.reports;
 
 import com.example.demo.backend.client.ClientService;
 import com.example.demo.backend.rent.RentService;
+import com.example.demo.backend.rent.RentStatus;
 import com.example.demo.backend.vehicle.VehicleService;
 import com.example.demo.backend.vehicle.VehicleStatus;
 import com.example.demo.backend.vehicle.VehicleTier;
@@ -35,7 +36,8 @@ public class ReportsMainView extends VerticalLayout {
         add(
             Title,
             VehicleReports(vehicleService),
-            ClientsReports(clientService)
+            ClientsReports(clientService),
+            RentsReports(rentService)
         );
     }
     
@@ -122,8 +124,22 @@ public class ReportsMainView extends VerticalLayout {
      * @see                           Component
     */
     public Component RentsReports(RentService rentService) {
-        HorizontalLayout quantityOfRentWeeks = new HorizontalLayout();
+        HorizontalLayout statusPercentage = new HorizontalLayout();
         VerticalLayout reports = new VerticalLayout();
+        
+        for (RentStatus status : RentStatus.values()) {
+
+            float percentage = (float) rentService.percentageByStatus(status) * 100;
+            String percentageString = String.format("%.2f", percentage);
+
+            statusPercentage.add(
+                new Span(status.toString() + ": " + percentageString + "%")
+            );
+        }
+
+        reports.add(new H2("Rents"));
+        reports.add(new H4("Status"));
+        reports.add(statusPercentage);
         
         return reports;
     }

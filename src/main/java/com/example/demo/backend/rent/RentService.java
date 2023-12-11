@@ -259,4 +259,16 @@ public class RentService implements CrudListener<RentEntity>
         return (int) totalRent;
     }
 
+    public float percentageByStatus(RentStatus status) {
+        int counter = 0;
+        var allRents = rentRepository.findAll();
+        
+        for (var rent: allRents) {
+            if (rent.getStatus() == status) {
+                counter++;
+            }
+        }
+        
+        return (float) counter/allRents.size();
+    }
 }
