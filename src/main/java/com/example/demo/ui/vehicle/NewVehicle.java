@@ -63,7 +63,7 @@ public class NewVehicle extends VerticalLayout {
             var vehicle = new VehicleEntity();
             binder.writeBeanIfValid(vehicle);
 
-            vehicle.setLicensePlate(vehicle.getLicensePlate().replaceAll(" ", ""));
+            vehicle.setLicensePlate(vehicle.getLicensePlate().replaceAll(" ", "").toUpperCase());
 
             if (isVehiclesFieldsValid(vehicle) == false) {
                 return;
